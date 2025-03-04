@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const collectionName = 'bowlingLanes';
 
-export const bowlingLaneSchema = new mongoose.Schema({
+const bowlingLaneSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -26,14 +26,6 @@ export const bowlingLaneSchema = new mongoose.Schema({
         ],
         required: true,
     },
-    createdAt: {
-        type: Date,
-        required: true,
-    },
-    updatedAt: {
-        type: Date,
-        required: true,
-    },
-});
+}, { timestamps: true });
 
 export const BowlingLane = mongoose.model(collectionName, bowlingLaneSchema);
