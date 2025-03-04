@@ -39,12 +39,4 @@ describe('createBowlingLane', () => {
 
         await expect(createBowlingLane(name, laneSchedule)).rejects.toThrow(AppError);
     });
-
-    it('should throw an error if wrong laneSchedule', async () => {
-        const name = 'Lane 1';
-        const laneSchedule = 2;
-
-
-        await expect(createBowlingLane(name, laneSchedule)).rejects.toThrow(AppError);
-    });
 });

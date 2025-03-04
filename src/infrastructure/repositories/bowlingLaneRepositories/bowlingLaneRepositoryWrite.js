@@ -5,7 +5,7 @@ export async function createBowlingLane(name, laneSchedule) {
     try {
         const bowlingLane = {
             name,
-            laneSchedule
+            laneSchedule,
         };
         return await BowlingLane.create(bowlingLane);
     } catch (error) {
