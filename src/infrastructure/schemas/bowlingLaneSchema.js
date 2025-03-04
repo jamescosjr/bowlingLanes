@@ -10,7 +10,7 @@ const bowlingLaneSchema = new mongoose.Schema({
     laneSchedule: {
         type: [
             {
-                day: {
+                date: {
                     type: String,
                     required: true,
                 },
@@ -25,6 +25,7 @@ const bowlingLaneSchema = new mongoose.Schema({
             },
         ],
         required: true,
+        default: [],
     },
 }, { timestamps: true });
 
