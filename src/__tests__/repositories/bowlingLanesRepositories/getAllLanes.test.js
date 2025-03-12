@@ -1,7 +1,7 @@
 import { getAllLanes } from '../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead';
-import * as bowlingLaneRepositoryRead from '../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js';
-import { describe, expect, it, jest } from '@jest/globals';import  { connect, closeDatabase, clearDatabase } from '../../../../jest/jest.setup';
-import { AppError } from '../../../domain/erros/customErros';
+import { describe, expect, it, jest } from '@jest/globals';
+import  { connect, closeDatabase, clearDatabase } from '../../../../jest/jest.setup';
+import { createBowlingLane } from '../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite';
 
 beforeAll(async () => {
     await connect();
