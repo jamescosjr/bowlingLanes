@@ -1,17 +1,17 @@
 import { AppError } from '../../../domain/erros/customErros.js';
 import { createBowlingLane } from '../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js';
-const dbHandler = require('../../../../jest/jest.setup');
+import  { connect, closeDatabase, clearDatabase } from '../../../../jest/jest.setup';
 
 beforeAll(async () => {
-    await dbHandler.connect();
+    await connect();
 });
 
 afterEach(async () => {
-    await dbHandler.clearDatabase();
+    await clearDatabase();
 });
 
 afterAll(async () => {
-    await dbHandler.closeDatabase();
+    await closeDatabase();
 });
 
 describe('createBowlingLane', () => {

@@ -1,0 +1,78 @@
+openapi: 3.0.0
+info:
+  title: Bowling Lanes API
+  version: 1.0.0
+paths:
+  /bowling-lanes:
+    post:
+      summary: Create a new bowling lane
+      operationId: createBowlingLane
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Lane 1"
+      responses:
+        '201':
+          description: Bowling lane created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "12345"
+                  name:
+                    type: string
+                    example: "Lane 1"
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: "2021-01-01T00:00:00Z"
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: "2021-01-01T00:00:00Z"
+                  laneSchedule:
+                    $ref: '#/components/schemas/LaneSchedule'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid lane name"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+
+components:
+  schemas:
+    LaneSchedule:
+      type: object
+      properties:
+        day:
+          type: string
+          example: "Monday"
+        openTime:
+          type: integer
+          example: 16
+        closeTime:
+          type: integer
+          example: 22

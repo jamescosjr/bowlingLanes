@@ -1,4 +1,4 @@
-import { BowlingLane } from "../../schemas/bowlingLaneSchema";
+import { BowlingLane } from "../../schemas/bowlingLaneSchema.js";
 import { AppError } from "../../../domain/erros/customErros.js";
 
 export async function createBowlingLane(name, laneSchedule) {

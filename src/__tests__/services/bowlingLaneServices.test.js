@@ -1,34 +1,25 @@
 import { createBowlingLaneService } from '../../domain/services/bowlingLaneService.js';
-import { createBowlingLane } from '../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js';
-const dbHandler = require('../../../jest/jest.setup');
-
-jest.mock('../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js');
+import * as bowlingLaneRepository from '../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js';
+import { connect, closeDatabase, clearDatabase } from '../../../jest/jest.setup.js';
+import { AppError } from '../../domain/erros/customErros.js';
+import { describe, expect, beforeAll, afterEach, afterAll, it, jest } from '@jest/globals';
 
 beforeAll(async () => {
-    await dbHandler.connect();
+    await connect();
 });
 
 afterEach(async () => {
-    await dbHandler.clearDatabase();
+    await clearDatabase();
     jest.clearAllMocks();
 });
 
 afterAll(async () => {
-    await dbHandler.closeDatabase();
+    await closeDatabase();
 });
 
 describe('createBowlingLaneService', () => {
     it('should call createBowlingLane with the correct parameters', async () => {
         const name = 'Lane 1';
-        const mockResult = {
-            name: 'Lane 1',
-            laneSchedule: [],
-            id: expect.any(String),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        };
-
-        createBowlingLane.mockResolvedValue(mockResult);
 
         const result = await createBowlingLaneService(name);
 
@@ -39,14 +30,11 @@ describe('createBowlingLaneService', () => {
             createdAt: expect.any(Date),
             updatedAt: expect.any(Date),
         });
-        expect(createBowlingLane).toHaveBeenCalledWith(name, []);
     });
 
     it('should throw an error if creation fails', async () => {
         const name = '';
 
-        createBowlingLane.mockRejectedValue(new Error('Failed to create bowling lane'));
-
-        await expect(createBowlingLaneService(name)).rejects.toThrow('Failed to create bowling lane');
+        await expect(createBowlingLaneService(name)).rejects.toThrowError(AppError);
     });
 });

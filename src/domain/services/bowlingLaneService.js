@@ -1,5 +1,5 @@
-import { createBowlingLane } from "../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite";
-import { AppError } from "../erros/customErros";
+import { createBowlingLane } from "../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js";
+import { AppError } from "../erros/customErros.js";
 
 export async function createBowlingLaneService(name) {
     try {
