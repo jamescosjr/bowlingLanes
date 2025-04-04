@@ -1,6 +1,9 @@
 const { createBowlingLane } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js");
-const { AppError } = require("../erros/customErros.js");
-const { getAllLanes } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js");
+const { AppError, NotFoundError } = require("../erros/customErros.js");
+const { 
+    getAllLanes,
+    getLaneByName,
+ } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js");
 
 async function createBowlingLaneService(name) {
     try {
@@ -19,7 +22,20 @@ async function getAllLanesService() {
     }
 }
 
+async function getLaneByNameService(name) {
+    try {
+        const result = await getLaneByName(name);        
+        return result;
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new AppError('Failed to get lane by name');
+    }
+}
+
 module.exports = {
     createBowlingLaneService,
     getAllLanesService,
+    getLaneByNameService,
 }

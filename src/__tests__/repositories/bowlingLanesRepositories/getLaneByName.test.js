@@ -1,6 +1,7 @@
 const { getLaneByName } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js');
 const { connect, closeDatabase, clearDatabase } = require('../../../../jest/jest.setup');
 const { createBowlingLane } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite');
+const { BowlingLane } = require('../../../infrastructure/schemas/bowlingLaneSchema.js')
 
 beforeAll(async () => {
     await connect();
@@ -32,4 +33,17 @@ describe('getLaneByName', () => {
                  }),
          );
     });
+
+    it('should throw NotFoundError if lane does not exist', async () => {
+        await createBowlingLane('Lane 1', [] );
+        await createBowlingLane('Lane 8', [] );
+
+        const name = 'Lane 34';
+
+        const error = await getLaneByName(name).catch(err => err);
+        expect(error.status).toBe(404);
+        await expect(getLaneByName(name)).rejects.toThrow('Lane not found');
+
+    });
+    
 });

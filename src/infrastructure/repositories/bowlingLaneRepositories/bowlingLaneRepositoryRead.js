@@ -14,10 +14,13 @@ async function getLaneByName(name) {
     try {
         const result = await BowlingLane.findOne({ name: name });
         if (!result) {
-            throw new NotFoundError('Lane doesn\'t exist');
+            throw new NotFoundError('Lane not found');
         }
         return result;
     } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
         throw new AppError('Failed to get lane by name');
     }
 }

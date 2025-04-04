@@ -62,6 +62,53 @@ paths:
                     type: string
                     example: "Internal server error"
 
+  /bowling-lanes/{name}:
+    get:
+      summary: Get a bowling lane by name
+      operationId: getBowlingLane
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: The name of the bowling lane
+          schema:
+            type: string
+            example: "Lane 1"
+      responses:
+        '200':
+          description: Bowling lane retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "12345"
+                  name:
+                    type: string
+                    example: "Lane 1"
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: "2021-01-01T00:00:00Z"
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: "2021-01-01T00:00:00Z"
+                  laneSchedule:
+                    $ref: '#/components/schemas/LaneSchedule'
+        '404':
+          description: Bowling lane not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Bowling lane not found"
+
 components:
   schemas:
     LaneSchedule:
