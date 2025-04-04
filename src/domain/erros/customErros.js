@@ -1,4 +1,4 @@
-export class AppError extends Error {
+class AppError extends Error {
     constructor(message = "something went wrong", status) {
         super(message);
         this.status = status || 500;
@@ -6,14 +6,20 @@ export class AppError extends Error {
     }
 }
 
-export class NotFoundError extends AppError {
+class NotFoundError extends AppError {
     constructor(message = "Resource not found") {
         super(message, 404);
     }
 }
 
-export class ValidationError extends AppError {
+class ValidationError extends AppError {
     constructor(message = "Invalid data") {
         super(message, 400);
     }
+}
+
+module.exports = {
+    AppError,
+    NotFoundError,
+    ValidationError,
 }

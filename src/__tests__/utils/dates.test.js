@@ -1,4 +1,4 @@
-import { dateWithoutTime } from '../../domain/utils/dates';
+const dateWithoutTime = require('../../domain/utils/dates');
 
 describe('dateWithoutTime', () => {
         test('should return a date without time', () => {

@@ -1,4 +1,4 @@
-export default function errorHandler(err, req, res, next) {
+function errorHandler(err, req, res, next) {
 
     const statusCode = err.status || 500;
     const message = err.message || "Internal server error";
@@ -7,3 +7,5 @@ export default function errorHandler(err, req, res, next) {
 
     next(err);
 }
+
+module.exports = errorHandler;

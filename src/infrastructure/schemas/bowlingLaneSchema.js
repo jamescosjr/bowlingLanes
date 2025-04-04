@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const collectionName = 'bowlingLanes';
 
@@ -29,4 +29,6 @@ const bowlingLaneSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-export const BowlingLane = mongoose.model(collectionName, bowlingLaneSchema);
+const BowlingLane = mongoose.model(collectionName, bowlingLaneSchema);
+
+module.exports = BowlingLane;

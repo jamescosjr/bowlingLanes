@@ -1,8 +1,12 @@
-import express from 'express';
-import { createBowlingLaneController } from './bowlingLaneController.js';
+const express = require('express');
+const { 
+    createBowlingLaneController,
+    getAllLanesController,
+ } = require('./bowlingLaneController.js');
 
 const routes = express.Router();
 
 routes.post('/bowling-lanes', createBowlingLaneController);
+routes.get('/bowling-lanes', getAllLanesController);
 
-export default routes;
+module.exports = routes;

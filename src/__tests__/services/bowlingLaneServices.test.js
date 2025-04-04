@@ -1,10 +1,9 @@
-import { 
+const { 
     createBowlingLaneService,
     getAllLanesService, 
-} from '../../domain/services/bowlingLaneService.js';
-import { connect, closeDatabase, clearDatabase } from '../../../jest/jest.setup.js';
-import { AppError } from '../../domain/erros/customErros.js';
-import { describe, expect, beforeAll, afterEach, afterAll, it, jest } from '@jest/globals';
+} = require('../../domain/services/bowlingLaneService.js');
+const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
+const { AppError } = require('../../domain/erros/customErros.js');
 
 
 beforeAll(async () => {

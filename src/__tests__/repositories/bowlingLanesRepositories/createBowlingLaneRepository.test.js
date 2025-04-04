@@ -1,6 +1,6 @@
-import { AppError } from '../../../domain/erros/customErros.js';
-import { createBowlingLane } from '../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js';
-import  { connect, closeDatabase, clearDatabase } from '../../../../jest/jest.setup';
+const { AppError } = require('../../../domain/erros/customErros.js');
+const { createBowlingLane } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js');
+const  { connect, closeDatabase, clearDatabase } = require('../../../../jest/jest.setup');
 
 beforeAll(async () => {
     await connect();

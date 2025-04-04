@@ -1,19 +1,17 @@
-import dotenv from "dotenv";
-import express from "express";
-import mongoose from "mongoose";
-import routes from "./application/controllers/routes.js";
-import errorHandler from "./middleware/errorHandler.js";
-import { validate } from "express-jsonschema";
-import yaml from "js-yaml";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+require('dotenv').config();
+const express = require("express");
+const mongoose = require("mongoose");
+const routes = require("./application/controllers/routes.js");
+const errorHandler = require("./middleware/errorHandler.js");
+// const { validate } = require("express-jsonschema");
+// const yaml = require("js-yaml");
+// const fs = require("fs");
+// const path = require("path");
+// const { fileURLToPath } = ("url");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const schema = yaml.load(fs.readFileSync(path.join(__dirname, "./contracts/contract.yaml"), "utf8"));
-
-dotenv.config();
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// const schema = yaml.load(fs.readFileSync(path.join(__dirname, "./contracts/contract.yaml"), "utf8"));
 
 const app = express();
 const PORT = process.env.PORT;
@@ -32,14 +30,14 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
-const validateSchema = (req, res, next) => {
-  const validation = validate({
-    body: schema,
-  });
-  validation(req, res, next);
-}
+// const validateSchema = (req, res, next) => {
+//   const validation = validate({
+//     body: schema,
+//   });
+//   validation(req, res, next);
+// }
 
-app.use(validateSchema);
+// app.use(validateSchema);
 
 app.use(routes);
 app.use(errorHandler);
@@ -50,4 +48,4 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
-export default app;
+module.exports = app;

@@ -1,8 +1,11 @@
-import { createBowlingLaneService } from "../../domain/services/bowlingLaneService.js";
-import validateBowlingLane from "../../domain/utils/validations.js";
-import { ValidationError } from "../../domain/erros/customErros.js";
+const { 
+    createBowlingLaneService,
+    getAllLanesService,
+  } = require("../../domain/services/bowlingLaneService.js");
+const validateBowlingLane = require("../../domain/utils/validations.js");
+const { ValidationError } = require("../../domain/erros/customErros.js");
 
-export async function createBowlingLaneController(req, res, next) {
+async function createBowlingLaneController(req, res, next) {
     try {
         const { name } = req.body;
         const validation = validateBowlingLane(name);
@@ -15,4 +18,19 @@ export async function createBowlingLaneController(req, res, next) {
     } catch (error) {
         next(error);
     }
+}
+
+async function getAllLanesController(req, res, next) {
+    try {
+        const result = await getAllLanesService();
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+module.exports = {
+    createBowlingLaneController,
+    getAllLanesController,
 }

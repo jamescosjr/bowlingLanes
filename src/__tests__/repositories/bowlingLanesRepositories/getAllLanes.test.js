@@ -1,7 +1,6 @@
-import { getAllLanes } from '../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead';
-import { describe, expect, it, jest } from '@jest/globals';
-import  { connect, closeDatabase, clearDatabase } from '../../../../jest/jest.setup';
-import { createBowlingLane } from '../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite';
+const { getAllLanes } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js');
+const { connect, closeDatabase, clearDatabase } = require('../../../../jest/jest.setup');
+const { createBowlingLane } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite');
 
 beforeAll(async () => {
     await connect();

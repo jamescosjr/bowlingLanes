@@ -1,22 +1,22 @@
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server-core';
+const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server-core');
 
 let mongo;
 
-export const connect = async () => {
+const connect = async () => {
     mongo = await MongoMemoryServer.create();
     const uri = mongo.getUri();
 
     await mongoose.connect(uri, {});
 };
 
-export const closeDatabase = async () => {
+const closeDatabase = async () => {
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
     await mongo.stop();
 };
 
-export const clearDatabase = async () => {
+const clearDatabase = async () => {
     const collections = mongoose.connection.collections;
 
     for (const key in collections) {
@@ -24,3 +24,5 @@ export const clearDatabase = async () => {
         await collection.deleteMany();
     }
 };
+
+module.exports = { connect, closeDatabase, clearDatabase }

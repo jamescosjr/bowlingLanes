@@ -1,8 +1,8 @@
-import { createBowlingLane } from "../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js";
-import { AppError } from "../erros/customErros.js";
-import { getAllLanes } from "../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js";
+const { createBowlingLane } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js");
+const { AppError } = require("../erros/customErros.js");
+const { getAllLanes } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js");
 
-export async function createBowlingLaneService(name) {
+async function createBowlingLaneService(name) {
     try {
         const laneSchedule = [];
         return await createBowlingLane(name, laneSchedule);
@@ -11,10 +11,15 @@ export async function createBowlingLaneService(name) {
     }
 }
 
-export async function getAllLanesService() {
+async function getAllLanesService() {
     try {
         return await getAllLanes();
     } catch (error) {
         throw new AppError('Failed to get all lanes', error);
     }
+}
+
+module.exports = {
+    createBowlingLaneService,
+    getAllLanesService,
 }

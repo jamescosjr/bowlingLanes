@@ -1,7 +1,7 @@
-import { BowlingLane } from "../../schemas/bowlingLaneSchema.js";
-import { AppError } from "../../../domain/erros/customErros.js";
+const BowlingLane = require("../../schemas/bowlingLaneSchema.js");
+const { AppError } = require("../../../domain/erros/customErros.js");
 
-export async function createBowlingLane(name, laneSchedule) {
+async function createBowlingLane(name, laneSchedule) {
     try {
         const bowlingLane = {
             name,
@@ -12,3 +12,7 @@ export async function createBowlingLane(name, laneSchedule) {
         throw new AppError('Failed to create bowling lane');
     }
 }
+
+module.exports = { 
+    createBowlingLane,
+ };
