@@ -10,8 +10,9 @@ const bowlingLaneSchema = new mongoose.Schema({
     laneSchedule: {
         type: [
             {
+                _id: false,
                 date: {
-                    type: String,
+                    type: Date,
                     required: true,
                 },
                 startHour: {
