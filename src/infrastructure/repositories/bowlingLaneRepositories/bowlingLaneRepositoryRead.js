@@ -25,7 +25,26 @@ async function getLaneByName(name) {
     }
 }
 
+async function getLanesBySchedule(laneSchedule) {
+    try {
+        const { date, startHour, endHour } = laneSchedule;
+        const result = await BowlingLane.find({
+            laneSchedule: {
+                $elemMatch: {
+                    date: date,
+                    startHour: startHour,
+                    endHour: endHour,
+                }
+            }
+        }).lean();
+        return result;
+    } catch (error) {
+        throw new AppError('Failed to get lane by schedule');
+    }
+}
+
 module.exports = {
     getAllLanes,
     getLaneByName,
+    getLanesBySchedule
 }
