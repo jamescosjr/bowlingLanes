@@ -25,9 +25,8 @@ async function getLaneByName(name) {
     }
 }
 
-async function getLanesBySchedule(laneSchedule) {
+async function getLanesBySchedule({date, startHour, endHour}) {
     try {
-        const { date, startHour, endHour } = laneSchedule;
         const result = await BowlingLane.find({
             laneSchedule: {
                 $elemMatch: {
