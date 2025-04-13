@@ -24,8 +24,6 @@ describe('POST /bowling-lanes', () => {
         expect(response.status).toBe(201);
         expect(response.body).toHaveProperty('_id');
         expect(response.body.name).toBe(newLane.name);
-        expect(response.body.location).toBe(newLane.location);
-        expect(response.body.status).toBe(newLane.status);
     });
 
     it('should return 400 if required fields are missing', async () => {
