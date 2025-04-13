@@ -3,7 +3,7 @@ const {
     getAllLanesService,
     getLaneByNameService,
   } = require("../../domain/services/bowlingLaneService.js");
-const validateBowlingLane = require("../../domain/utils/validations.js");
+const { validateBowlingLane } = require("../../domain/utils/validations.js");
 const { ValidationError } = require("../../domain/erros/customErros.js");
 
 async function createBowlingLaneController(req, res, next) {
