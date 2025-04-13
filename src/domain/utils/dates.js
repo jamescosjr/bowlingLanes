@@ -1,7 +1,15 @@
 function normalizeDate(date) {
     const d = new Date(date);
-    d.setUTCHours(0, 0, 0, 0);
+    d.setHours(0, 0, 0, 0);
     return d;
-  }
+}
 
-module.exports = normalizeDate;
+
+  function integerToStringHour(integerHour) {
+    return `${integerHour.toString().padStart(2, '0')}:00`;
+}
+
+module.exports = {
+    normalizeDate,
+    integerToStringHour
+};
