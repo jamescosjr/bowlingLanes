@@ -1,5 +1,7 @@
-function dateWithoutTime(date) {
-    return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate());
-}
+function normalizeDate(date) {
+    const d = new Date(date);
+    d.setUTCHours(0, 0, 0, 0);
+    return d;
+  }
 
-module.exports = dateWithoutTime;
+module.exports = normalizeDate;
