@@ -26,7 +26,7 @@ describe('GET /bowling-lanes/:name', () => {
             .expect(201);
 
         const response = await supertest(app)
-            .get(`/bowling-lanes/${lane.name}`)
+            .get(`/bowling-lanes/name/${lane.name}`)
             .expect(200);
 
         expect(response.body).toEqual(expect.objectContaining({
@@ -42,7 +42,7 @@ describe('GET /bowling-lanes/:name', () => {
     it('should return 404 if lane doesnt exist', async () => {
 
         const response = await supertest(app)
-            .get(`/bowling-lanes/any_name`)
+            .get(`/bowling-lanes/name/any_name`)
             .expect(404);
 
             expect(response.body).toHaveProperty('message');
