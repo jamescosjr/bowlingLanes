@@ -12,7 +12,15 @@ function validateStartHour(integerHour) {
     return { valid: true };
 }
 
+function dateValidation(date) {
+    if (isNaN(Date.parse(date))) {
+        return { valid: false, message: 'The date is not valid' };
+    }
+    return { valid: true };
+}
+
 module.exports = {
     validateBowlingLane,
     validateStartHour,
+    dateValidation,
 };
