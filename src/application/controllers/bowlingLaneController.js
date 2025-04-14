@@ -2,9 +2,11 @@ const {
     createBowlingLaneService,
     getAllLanesService,
     getLaneByNameService,
+    getLanesByScheduleService,
   } = require("../../domain/services/bowlingLaneService.js");
-const { validateBowlingLane } = require("../../domain/utils/validations.js");
+const { validateBowlingLane, validateStartHour, dateValidation  } = require("../../domain/utils/validations.js");
 const { ValidationError } = require("../../domain/erros/customErros.js");
+const {  } = require('../../domain/utils/validations.js')
 
 async function createBowlingLaneController(req, res, next) {
     try {
@@ -40,9 +42,33 @@ async function getLaneByNameController(req, res, next) {
     }
 }
 
+async function getLanesByScheduleController(req, res, next) {
+    try {
+        const { date, startHour } = req.query;
+
+        const parsedStartHour = parseInt(startHour, 10);
+        const validation = validateStartHour(parsedStartHour);
+
+        if (!validation.valid) {
+            return next(new ValidationError(validation.message));
+        }
+
+        const validDate = dateValidation(date);
+        if (!validDate.valid) {
+            return next(new ValidationError(validDate.message));
+        }
+
+        const result = await getLanesByScheduleService({ date, startHour: parsedStartHour });
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 module.exports = {
     createBowlingLaneController,
     getAllLanesController,
-    getLaneByNameController
+    getLaneByNameController,
+    getLanesByScheduleController,
 }
