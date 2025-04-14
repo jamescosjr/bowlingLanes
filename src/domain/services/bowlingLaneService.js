@@ -1,4 +1,7 @@
-const { createBowlingLane } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js");
+const { 
+    createBowlingLane,
+    updateLaneById,
+ } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js");
 const { AppError, NotFoundError } = require("../erros/customErros.js");
 const { 
     getAllLanes,
@@ -37,12 +40,12 @@ async function getLaneByNameService(name) {
 }
 
 async function getLanesByScheduleService({date, startHour}) {
+    try {
     const normalizedDate = normalizeDate(date);
 
     const normalizedStartHour = integerToStringHour(startHour);
 
     const endHour = integerToStringHour(startHour + 2);
-    try {
         return await getLanesBySchedule({date: normalizedDate, startHour: normalizedStartHour, endHour});
     } catch (error) {
         throw new AppError('Failed to get lanes by schedule', error);
