@@ -52,9 +52,18 @@ async function getLanesByScheduleService({date, startHour}) {
     }
 }
 
+async function updateLaneByIdService(id, updates) {
+    try {
+        return await updateLaneById(id, updates);
+    } catch (error) {
+        throw new AppError('Failed to update lane by ID', error);
+    }
+}
+
 module.exports = {
     createBowlingLaneService,
     getAllLanesService,
     getLaneByNameService,
     getLanesByScheduleService,
+    updateLaneByIdService,
 }
