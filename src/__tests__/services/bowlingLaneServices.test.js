@@ -3,6 +3,7 @@ const {
     getAllLanesService, 
     getLaneByNameService,
     getLanesByScheduleService,
+    updateLaneByIdService
 } = require('../../domain/services/bowlingLaneService.js');
 const { addScheduleOnLane } = require('../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js');
 const { normalizeDate } = require('../../domain/utils/dates.js')
@@ -152,6 +153,24 @@ describe('Bowling Lane Service', () => {
 
             expect(result).toHaveLength(0);
         });
+    })
+
+    describe('updateLaneByIdService', () => {
+        it('should update a lane by ID', async () => {
+            const lane = await createBowlingLaneService('Lane 1');
+    
+            await updateLaneByIdService(lane.id, { name: 'Updated Lane' });
+    
+            const updatedLane = await getLaneByNameService('Updated Lane');
+            
+            expect(updatedLane).toMatchObject({
+                name: 'Updated Lane',
+                laneSchedule: [],
+                createdAt: expect.any(Date),
+                updatedAt: expect.any(Date)
+            })
+        }
+        );
     })
 });
 
