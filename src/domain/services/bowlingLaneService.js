@@ -52,9 +52,9 @@ async function getLanesByScheduleService({date, startHour}) {
     }
 }
 
-async function updateLaneByIdService(id, updates) {
+async function updateLaneByIdService(id, updateLane) {
     try {
-        return await updateLaneById(id, updates);
+        return await updateLaneById(id, updateLane);
     } catch (error) {
         throw new AppError('Failed to update lane by ID', error);
     }
