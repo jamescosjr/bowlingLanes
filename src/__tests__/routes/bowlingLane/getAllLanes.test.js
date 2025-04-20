@@ -1,6 +1,6 @@
 const supertest = require('supertest');
-const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
-const app = require('../../server.js');
+const { connect, closeDatabase, clearDatabase } = require('../../../../jest/jest.setup.js');
+const app = require('../../../server.js');
 
 beforeAll(async () => {
     await connect();
@@ -13,8 +13,9 @@ afterEach(async () => {
 afterAll(async () => {
     await closeDatabase();
 });
+
 describe('POST /bowling-lanes', () => {
-    it('should create a new bowling lane', async () => {
+    it('should create a new bowling lane and than get all lanes', async () => {
         const newLane = {
             name: 'Lane 1',
         };

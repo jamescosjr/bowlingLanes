@@ -1,6 +1,6 @@
 const supertest = require('supertest');
-const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
-const app = require('../../server.js');
+const { connect, closeDatabase, clearDatabase } = require('../../../../jest/jest.setup.js');
+const app = require('../../../server.js');
 
 beforeAll(async () => {
     await connect();

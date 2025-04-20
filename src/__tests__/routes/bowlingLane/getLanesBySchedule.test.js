@@ -1,9 +1,9 @@
 const supertest = require('supertest');
-const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
-const {addScheduleOnLane, createBowlingLane} = require('../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js');
-const { normalizeDate } = require('../../domain/utils/dates.js');
-const app = require('../../server.js');
-const { getLaneByName } = require('../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js');
+const { connect, closeDatabase, clearDatabase } = require('../../../../jest/jest.setup.js');
+const {addScheduleOnLane, createBowlingLane} = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js');
+const { normalizeDate } = require('../../../domain/utils/dates.js');
+const app = require('../../../server.js');
+const { getLaneByName } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js');
 
 beforeAll(async () => {
     await connect();
