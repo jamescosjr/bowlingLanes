@@ -48,14 +48,11 @@ async function removeScheduleOnLane(name, scheduleToRemove) {
     }
 }
 
-async function updateLaneById(id, updateData) {
-    if (!updateData || typeof updateData !== 'object') {
-        throw new AppError('Invalid update data provided');
-    }
+async function updateLaneById(id, updates) {
     try {
         const result = await BowlingLane.updateOne(
             { _id: id },
-            { $set: updateData }
+            { $set: updates }
         );
 
         if (result.matchedCount === 0) {
