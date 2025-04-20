@@ -42,8 +42,24 @@ async function getLanesBySchedule({date, startHour, endHour}) {
     }
 }
 
+async function getLaneById(id) {
+    try {
+        const result = await BowlingLane.findById(id);
+        if (!result) {
+            throw new NotFoundError('Lane not found');
+        }
+        return result;
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new AppError('Failed to get lane by ID');
+    }
+}   
+
 module.exports = {
     getAllLanes,
     getLaneByName,
-    getLanesBySchedule
+    getLanesBySchedule,
+    getLaneById,
 }
