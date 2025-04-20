@@ -1,6 +1,7 @@
 const { 
     createBowlingLane,
     updateLaneById,
+    deleteLaneById,
  } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js");
 const { AppError, NotFoundError } = require("../erros/customErros.js");
 const { 
@@ -60,10 +61,19 @@ async function updateLaneByIdService(id, updateLane) {
     }
 }
 
+async function deleteLaneByIdService(id) {
+    try {
+        return await deleteLaneById(id);
+    } catch (error) {
+        throw new AppError('Failed to delete lane by ID', error);
+    }
+}
+
 module.exports = {
     createBowlingLaneService,
     getAllLanesService,
     getLaneByNameService,
     getLanesByScheduleService,
     updateLaneByIdService,
+    deleteLaneByIdService,
 }
