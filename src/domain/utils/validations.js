@@ -19,8 +19,22 @@ function dateValidation(date) {
     return { valid: true };
 }
 
+function validateClient(client) {
+    if (!client.name || typeof client.name !== 'string') {
+        return { valid: false, message: 'The name should be a valid string' };
+    }
+    if (!client.documentId || typeof client.documentId !== 'string') {
+        return { valid: false, message: 'The document ID should be a valid string' };
+    }
+    if (!client.age || typeof client.age !== 'number') {
+        return { valid: false, message: 'The age should be a valid number' };
+    }
+    return { valid: true };
+}
+
 module.exports = {
     validateBowlingLane,
     validateStartHour,
     dateValidation,
+    validateClient,
 };
