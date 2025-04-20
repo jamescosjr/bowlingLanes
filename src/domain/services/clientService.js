@@ -17,9 +17,9 @@ async function createClientService (name, documentId, age) {
     }
 }
 
-async function getAllClientsService(filter = {}, page = 1, limit = 10) {
+async function getAllClientsService() {
     try {
-        const clients = await getAllClients(filter, page, limit);
+        const clients = await getAllClients();
         return clients;
     } catch (error) {
         throw new AppError('Failed to get all clients', error);
