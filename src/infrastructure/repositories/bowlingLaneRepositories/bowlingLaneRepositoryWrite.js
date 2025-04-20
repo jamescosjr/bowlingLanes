@@ -63,9 +63,22 @@ async function updateLaneById(id, updates) {
     }
 }
 
+async function deleteLaneById(id) {
+    try {
+        const result = await BowlingLane.deleteOne({ _id: id });
+
+        if (result.deletedCount === 0) {
+            throw new NotFoundError('Lane not found', 404);
+        }
+    } catch (error) {
+        throw new AppError('Failed to delete bowling lane');
+    }
+}
+
 module.exports = { 
     createBowlingLane,
     addScheduleOnLane,
     updateLaneById,
     removeScheduleOnLane,
+    deleteLaneById,
  };
