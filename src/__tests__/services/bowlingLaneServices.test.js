@@ -3,7 +3,8 @@ const {
     getAllLanesService, 
     getLaneByNameService,
     getLanesByScheduleService,
-    updateLaneByIdService
+    updateLaneByIdService,
+    deleteLaneByIdService,
 } = require('../../domain/services/bowlingLaneService.js');
 const { addScheduleOnLane } = require('../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js');
 const { normalizeDate } = require('../../domain/utils/dates.js')
@@ -171,6 +172,24 @@ describe('Bowling Lane Service', () => {
             })
         }
         );
-    })
+    });
+
+    describe('deleteLaneByIdService', () => {
+        it('should delete a lane by ID', async () => {
+            const lane = await createBowlingLaneService('Lane 1');
+    
+            await deleteLaneByIdService(lane.id);
+    
+            await expect(getLaneByNameService('Lane 1')).rejects.toThrowError(AppError);
+        });
+
+        it('should throw an error if the lane does not exist', async () => {
+            const lane = await createBowlingLaneService('Lane 1');
+    
+            await deleteLaneByIdService(lane.id);
+    
+            await expect(deleteLaneByIdService(lane.id)).rejects.toThrowError(AppError);
+        });
+    });
 });
 
