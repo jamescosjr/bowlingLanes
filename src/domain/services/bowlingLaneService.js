@@ -8,6 +8,7 @@ const {
     getAllLanes,
     getLaneByName,
     getLanesBySchedule,
+    getLaneById,
  } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js");
  const { normalizeDate, integerToStringHour } = require("../../domain/utils/dates.js");
 
@@ -63,6 +64,11 @@ async function updateLaneByIdService(id, updateLane) {
 
 async function deleteLaneByIdService(id) {
     try {
+        const lane = await getLaneById(id);
+
+        if (lane.laneSchedule.length > 0) {
+            throw new AppError('Cannot delete lane with existing schedules');
+        }
         return await deleteLaneById(id);
     } catch (error) {
         throw new AppError('Failed to delete lane by ID', error);
