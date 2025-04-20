@@ -14,8 +14,8 @@ afterAll(async () => {
     await closeDatabase();
 });
 
-describe('POST /bowling-lanes', () => {
-    it('should create a new bowling lane and than get all lanes', async () => {
+describe('GET /bowling-lanes', () => {
+    it('should get all bowling lanes', async () => {
         const newLane = {
             name: 'Lane 1',
         };
