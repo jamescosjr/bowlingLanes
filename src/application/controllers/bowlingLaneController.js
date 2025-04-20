@@ -4,6 +4,7 @@ const {
     getLaneByNameService,
     getLanesByScheduleService,
     updateLaneByIdService,
+    deleteLaneByIdService,
   } = require("../../domain/services/bowlingLaneService.js");
 const { validateBowlingLane, validateStartHour, dateValidation  } = require("../../domain/utils/validations.js");
 const { ValidationError } = require("../../domain/erros/customErros.js");
@@ -83,6 +84,16 @@ async function updateLaneByIdController(req, res, next) {
     }   
 }
 
+async function deleteLaneByIdController(req, res, next) {
+    try {
+        const { id } = req.params;
+        await deleteLaneByIdService(id);
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 module.exports = {
     createBowlingLaneController,
@@ -90,4 +101,5 @@ module.exports = {
     getLaneByNameController,
     getLanesByScheduleController,
     updateLaneByIdController,
+    deleteLaneByIdController,
 }
