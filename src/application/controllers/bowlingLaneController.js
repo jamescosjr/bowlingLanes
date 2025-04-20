@@ -8,7 +8,6 @@ const {
   } = require("../../domain/services/bowlingLaneService.js");
 const { validateBowlingLane, validateStartHour, dateValidation  } = require("../../domain/utils/validations.js");
 const { ValidationError } = require("../../domain/erros/customErros.js");
-const {  } = require('../../domain/utils/validations.js')
 
 async function createBowlingLaneController(req, res, next) {
     try {
