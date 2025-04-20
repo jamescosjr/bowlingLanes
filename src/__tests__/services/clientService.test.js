@@ -1,5 +1,6 @@
 const { 
     createClientService,
+    getAllClientsService,
 } = require('../../domain/services/clientService.js');
 const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
 const { AppError } = require('../../middleware/errorHandler.js');
@@ -45,4 +46,30 @@ describe('clientService', () => {
             await expect(createClientService(name, documentId, age)).rejects.toThrow(AppError);
         });
     })
-})
+
+    describe('getAllClients', () => {
+        it ('should return all clients', async () => {
+            const name = 'John Doe';
+            const documentId = '123456789';
+            const age = 30;
+
+            await createClientService(name, documentId, age);
+
+            const allClients = await getAllClientsService();
+            expect(allClients).toHaveLength(1);
+            expect(allClients[0].toObject()).toMatchObject({
+                name,
+                documentId,
+                age,
+                clientSchedule: [],
+                createdAt: expect.any(Date),
+                updatedAt: expect.any(Date),
+            });
+        });
+
+        it ('should return an empty array if there are no clients', async () => {
+            const allClients = await getAllClientsService();
+            expect(allClients).toHaveLength(0);
+        });
+    })
+}) 
