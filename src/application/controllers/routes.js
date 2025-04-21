@@ -13,6 +13,7 @@ const {
     getAllClientsController,
     getClientByIdController,
     getClientByDocumentIdController,
+    getClientByScheduleController,
 } = require('../controllers/clientController.js')
 
 const routes = express.Router();
@@ -21,13 +22,14 @@ routes.post('/bowling-lanes', createBowlingLaneController);
 routes.get('/bowling-lanes', getAllLanesController);
 routes.get('/bowling-lanes/name/:name', getLaneByNameController);
 routes.get('/bowling-lanes/schedule', getLanesByScheduleController);
-routes.get('/bowling-lanes/:id', getLaneByIdController);
+routes.get('/bowling-lanes/id/:id', getLaneByIdController);
 routes.put('/bowling-lanes/:id', updateLaneByIdController);
 routes.delete('/bowling-lanes/:id', deleteLaneByIdController);
 
 routes.post('/clients', createClientController);
 routes.get('/clients', getAllClientsController);
-routes.get('/clients/:id', getClientByIdController);
+routes.get('/clients/id/:id', getClientByIdController);
 routes.get('/clients/document/:documentId', getClientByDocumentIdController);
+routes.get('/clients/schedule', getClientByScheduleController);
 
 module.exports = routes;
