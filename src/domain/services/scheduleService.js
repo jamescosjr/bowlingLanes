@@ -1,4 +1,4 @@
-const { createSchedule } = require("../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryWrite.js");
+const { createSchedule, deleteSchedule } = require("../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryWrite.js");
 const { getAllSchedules } = require("../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryRead.js");
 const { getLaneById } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js");
 const { getClientById } = require("../../infrastructure/repositories/clientRepositories/clientRepositoryRead.js");
@@ -75,7 +75,20 @@ async function getAllSchedulesService() {
     }
 }
 
+async function deleteScheduleService(id) {
+    try {
+        const schedule = await deleteSchedule(id);
+        return schedule;
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new AppError("Failed to delete schedule", error);
+    }
+}
+
 module.exports = {
     createScheduleService,
     getAllSchedulesService,
+    deleteScheduleService,
 };
