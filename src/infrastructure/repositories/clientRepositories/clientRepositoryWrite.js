@@ -21,15 +21,20 @@ async function addScheduleOnClient(documentId, clientSchedule) {
     }
     try {
         const result = await Client.updateOne(
-            { documentId: documentId },
+            {
+                documentId: documentId,
+                clientSchedule: { $not: { $elemMatch: clientSchedule } }, 
+            },
             { $push: { clientSchedule } }
         );
 
         if (result.matchedCount === 0) {
-            throw new NotFoundError('Client not found', 404);
+            throw new NotFoundError('Client not found or schedule already exists', 404);
         }
+
+        return result
     } catch (error) {
-        throw new AppError('Failed to update client');
+        throw new AppError(`Failed to update client: ${error.message}`);
     }
 }
 
