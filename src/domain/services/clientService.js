@@ -9,6 +9,7 @@ const {
     getClientBySchedule,
 } = require('../../infrastructure/repositories/clientRepositories/clientRepositoryRead.js');
 const { NotFoundError } = require('../erros/customErros.js');
+const { normalizeDate, integerToStringHour } = require('../utils/dates.js'); 
 
 
 async function createClientService (name, documentId, age) {
@@ -53,13 +54,15 @@ async function getClientByDocumentIdService(documentId) {
     }
 }
 
-async function getClientByScheduleService({ date, startHour, endHour }) {
+async function getClientByScheduleService({ date, startHour }) {
     try {
-        const client = await getClientBySchedule({ date, startHour, endHour });
-        if (!client) {
-            throw new NotFoundError('Client not found');
-        }
-        return client;
+        const normalizedDate = normalizeDate(date);
+
+        const normalizedStartHour = integerToStringHour(startHour);
+
+        const endHour = integerToStringHour(startHour + 2);
+
+        return await getClientBySchedule({ date: normalizedDate, startHour: normalizedStartHour, endHour });
     } catch (error) {
         throw new AppError('Failed to get client by schedule', error);
     }
