@@ -12,6 +12,7 @@ const {
     createClientController,
     getAllClientsController,
     getClientByIdController,
+    getClientByDocumentIdController,
 } = require('../controllers/clientController.js')
 
 const routes = express.Router();
@@ -27,5 +28,6 @@ routes.delete('/bowling-lanes/:id', deleteLaneByIdController);
 routes.post('/clients', createClientController);
 routes.get('/clients', getAllClientsController);
 routes.get('/clients/:id', getClientByIdController);
+routes.get('/clients/document/:documentId', getClientByDocumentIdController);
 
 module.exports = routes;
