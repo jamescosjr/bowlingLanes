@@ -28,11 +28,13 @@ describe('getLanesBySchedule', () => {
             date: rawDate,
             startHour: '10:00',
             endHour: '12:00',
+            client: '123456'
         });
         await addScheduleOnLane('Lane 2', {
             date: rawDate,
             startHour: '10:00',
             endHour: '12:00',
+            client: '654321' 
         });
     
         const result = await getLanesBySchedule({
@@ -58,6 +60,7 @@ describe('getLanesBySchedule', () => {
                             date: rawDate.toISOString(),
                             startHour: '10:00',
                             endHour: '12:00',
+                            client: '123456'
                         }),
                     ],
                     createdAt: expect.any(Date),
@@ -70,6 +73,7 @@ describe('getLanesBySchedule', () => {
                             date: rawDate.toISOString(),
                             startHour: '10:00',
                             endHour: '12:00',
+                            client: '654321' 
                         }),
                     ],
                     createdAt: expect.any(Date),
