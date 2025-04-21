@@ -4,6 +4,7 @@ const {
     getClientByIdService,
     getClientByDocumentIdService,
     getClientByScheduleService,
+    updateClientByIdService,
 } = require('../../domain/services/clientService.js');
 const { addScheduleOnClient } = require('../../infrastructure/repositories/clientRepositories/clientRepositoryWrite.js');
 const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
@@ -177,5 +178,36 @@ describe('clientService', () => {
 
                 expect(clientBySchedule).toHaveLength(0);
             });
-        })
+        });
+
+        describe('updateClientByIdService', () => {
+            it ('should update a client by ID', async () => {
+                const name = 'John Doe';
+                const documentId = '123456789';
+                const age = 30;
+
+                const client = await createClientService(name, documentId, age);
+                const updatedData = { name: 'Jane Doe', age: 25 };
+
+                await updateClientByIdService(client._id, updatedData);
+
+                const updatedClient = await getClientByIdService(client._id);
+
+                expect(updatedClient).toMatchObject({
+                    name: 'Jane Doe',
+                    documentId,
+                    age: 25,
+                    clientSchedule: [],
+                    createdAt: expect.any(Date),
+                    updatedAt: expect.any(Date),
+                });
+            });
+
+            it ('should throw an error if client does not exist', async () => {
+                const nonExistentId = 'non-existent-id';
+                const updatedData = { name: 'Jane Doe', age: 25 };
+
+                await expect(updateClientByIdService(nonExistentId, updatedData)).rejects.toThrow(AppError);
+            });
+        });
 }) ;
