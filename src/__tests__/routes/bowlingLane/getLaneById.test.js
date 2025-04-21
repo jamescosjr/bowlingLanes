@@ -36,7 +36,7 @@ describe('GET /bowling-lanes/:id', () => {
         }));
 
         const response = await supertest(app)
-            .get(`/bowling-lanes/${result.body._id}`)
+            .get(`/bowling-lanes/id/${result.body._id}`)
             .expect(200);
 
         expect(response.body).toEqual(expect.objectContaining({
