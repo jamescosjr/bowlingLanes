@@ -5,6 +5,7 @@ const { AppError } = require('../erros/customErros.js');
 const {
     getAllClients,
     getClientById,
+    getClientByDocumentId,
 } = require('../../infrastructure/repositories/clientRepositories/clientRepositoryRead.js');
 const { NotFoundError } = require('../erros/customErros.js');
 
@@ -39,8 +40,21 @@ async function getClientByIdService(id) {
     }
 }
 
+async function getClientByDocumentIdService(documentId) {
+    try {
+        const client = await getClientByDocumentId(documentId);
+        if (!client) {
+            throw new NotFoundError('Client not found');
+        }
+        return client;
+    } catch (error) {
+        throw new AppError('Failed to get client by document ID', error);
+    }
+}
+
 module.exports = {
     createClientService,
     getAllClientsService,
     getClientByIdService,
+    getClientByDocumentIdService,
 };
