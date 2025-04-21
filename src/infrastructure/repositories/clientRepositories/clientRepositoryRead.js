@@ -10,6 +10,19 @@ async function getAllClients(filter = {}, page = 1, limit = 10) {
     }
 }
 
+async function getClientById(id) {
+    try {
+        const result = await Client.findById(id);
+        if (!result) {
+            throw new NotFoundError('Client not found');
+        }
+        return result;
+    } catch (error) {
+        throw new AppError('Failed to get client by ID');
+    }
+}
+
 module.exports = {
     getAllClients,
+    getClientById,
 }
