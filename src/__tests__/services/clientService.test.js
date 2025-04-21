@@ -112,7 +112,7 @@ describe('clientService', () => {
             const client = await createClientService(name, documentId, age);
             const clientByDocumentId = await getClientByDocumentIdService(documentId);
 
-            expect(clientByDocumentId.toObject()).toMatchObject({
+            expect(clientByDocumentId).toMatchObject({
                 name,
                 documentId,
                 age,
@@ -135,7 +135,7 @@ describe('clientService', () => {
                 const documentId = '123456789';
                 const age = 30;
 
-                const client = await createClientService(name, documentId, age);
+                await createClientService(name, documentId, age);
 
                 const updatedClientSchedule1 =
                     {
@@ -146,7 +146,7 @@ describe('clientService', () => {
                     }
 
                 await addScheduleOnClient(documentId, updatedClientSchedule1);
-                const clientBySchedule = await getClientByScheduleService(updatedClientSchedule1);
+                const clientBySchedule = await getClientByScheduleService({ date: updatedClientSchedule1.date, startHour: 10 });
 
                 expect(clientBySchedule[0]).toMatchObject({
                     name,
