@@ -15,12 +15,12 @@ const scheduleSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    bowlingLane: {
+    bowlingLaneId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'bowlingLanes',
         required: true,
     },
-    client: {
+    clientId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'clients',
         required: true,
