@@ -54,6 +54,18 @@ async function getLanesByScheduleService({date, startHour}) {
     }
 }
 
+async function getLaneByIdService(id) {
+    try {
+        const lane = await getLaneById(id);
+        return lane;
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new AppError('Failed to get lane by ID', error);
+    }
+}
+
 async function updateLaneByIdService(id, updateLane) {
     try {
         return await updateLaneById(id, updateLane);
@@ -82,4 +94,5 @@ module.exports = {
     getLanesByScheduleService,
     updateLaneByIdService,
     deleteLaneByIdService,
+    getLaneByIdService,
 }
