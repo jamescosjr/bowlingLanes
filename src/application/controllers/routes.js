@@ -20,7 +20,7 @@ const {
 const {
     createScheduleController,
     getAllSchedulesController,  
-    deleteScheduleByIdController,
+    deleteScheduleController,
 } = require('../controllers/scheduleController.js');
 
 const routes = express.Router();
@@ -43,5 +43,6 @@ routes.delete('/clients/:id', deleteClientByIdController);
 
 routes.post('/schedules', createScheduleController);
 routes.get('/schedules', getAllSchedulesController);
+routes.delete('/schedules/:id', deleteScheduleController)
 
 module.exports = routes;
