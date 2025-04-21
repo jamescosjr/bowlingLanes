@@ -34,8 +34,26 @@ async function getClientByDocumentId(documentId) {
     }
 }
 
+async function getClientBySchedule({ date, startHour, endHour }) {
+    try {
+        const result = await Client.find({
+            clientSchedule: {
+                $elemMatch: {
+                    date: date,
+                    startHour: startHour,
+                    endHour: endHour,
+                }
+            }
+        }).lean();
+        return result;
+    } catch (error) {
+        throw new AppError('Failed to get client by schedule');
+    }
+}
+
 module.exports = {
     getAllClients,
     getClientById,
     getClientByDocumentId,
+    getClientBySchedule,
 }
