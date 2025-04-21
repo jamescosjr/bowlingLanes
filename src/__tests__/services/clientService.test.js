@@ -3,7 +3,9 @@ const {
     getAllClientsService,
     getClientByIdService,
     getClientByDocumentIdService,
+    getClientByScheduleService,
 } = require('../../domain/services/clientService.js');
+const { addScheduleOnClient } = require('../../infrastructure/repositories/clientRepositories/clientRepositoryWrite.js');
 const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
 const { AppError } = require('../../domain/erros/customErros.js');
 
@@ -126,4 +128,54 @@ describe('clientService', () => {
             await expect(getClientByDocumentIdService(nonExistentDocumentId)).rejects.toThrow(AppError);
         });
     });
+
+        describe('getClientByScheduleService', () => {
+            it ('should return a client by schedule', async () => {
+                const name = 'John Doe';
+                const documentId = '123456789';
+                const age = 30;
+
+                const client = await createClientService(name, documentId, age);
+
+                const updatedClientSchedule1 =
+                    {
+                        date: new Date(2025, 7, 12),
+                        startHour: '10:00',
+                        endHour: '12:00',
+                        bowlingLane: 'Lane 1',
+                    }
+
+                await addScheduleOnClient(documentId, updatedClientSchedule1);
+                const clientBySchedule = await getClientByScheduleService(updatedClientSchedule1);
+
+                expect(clientBySchedule[0]).toMatchObject({
+                    name,
+                    documentId,
+                    age,
+                    clientSchedule: [
+                        {
+                            date: updatedClientSchedule1.date,
+                            startHour: updatedClientSchedule1.startHour,
+                            endHour: updatedClientSchedule1.endHour,
+                            bowlingLane: updatedClientSchedule1.bowlingLane,
+                        }
+                    ],
+                    createdAt: expect.any(Date),
+                    updatedAt: expect.any(Date),
+                });
+            });
+
+            it ('should return an empty array if client does not exist', async () => {
+                const nonExistentSchedule = {
+                    date: new Date(2025, 7, 12),
+                    startHour: '10:00',
+                    endHour: '12:00',
+                    bowlingLane: 'Lane 1',
+                };
+
+                const clientBySchedule = await getClientByScheduleService(nonExistentSchedule);
+
+                expect(clientBySchedule).toHaveLength(0);
+            });
+        })
 }) ;
