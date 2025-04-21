@@ -1,7 +1,6 @@
 const { getLaneByName } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js');
 const { connect, closeDatabase, clearDatabase } = require('../../../../jest/jest.setup');
 const { createBowlingLane } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite');
-const { BowlingLane } = require('../../../infrastructure/schemas/bowlingLaneSchema.js')
 
 beforeAll(async () => {
     await connect();
