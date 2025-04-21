@@ -1,5 +1,6 @@
 const {
     createClient,
+    updateClientById,
 } = require('../../infrastructure/repositories/clientRepositories/clientRepositoryWrite.js');
 const { AppError } = require('../erros/customErros.js');
 const {
@@ -68,10 +69,23 @@ async function getClientByScheduleService({ date, startHour }) {
     }
 }
 
+async function updateClientByIdService(id, updatedData) {
+    try {
+        const result = await updateClientById(id, updatedData);
+        if (result.matchedCount === 0) {
+            throw new NotFoundError('Client not found');
+        }
+        return result;
+    } catch (error) {
+        throw new AppError('Failed to update client', error);
+    }
+}
+
 module.exports = {
     createClientService,
     getAllClientsService,
     getClientByIdService,
     getClientByDocumentIdService,
     getClientByScheduleService,
+    updateClientByIdService,
 };
