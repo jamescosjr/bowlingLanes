@@ -18,15 +18,20 @@ async function addScheduleOnLane(name, laneSchedule) {
     }
     try {
         const result = await BowlingLane.updateOne(
-            { name: name },
+            {
+                name: name,
+                laneSchedule: { $not: { $elemMatch: laneSchedule } },
+            },
             { $push: { laneSchedule } }
         );
 
         if (result.matchedCount === 0) {
-            throw new NotFoundError('Lane not found', 404);
+            throw new NotFoundError('Lane not found or schedule already exists', 404);
         }
+
+        return result;
     } catch (error) {
-        throw new AppError('Failed to update bowling lane');
+        throw new AppError(`Failed to update bowling lane: ${error.message}`);
     }
 }
 
