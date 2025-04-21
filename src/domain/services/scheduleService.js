@@ -1,4 +1,5 @@
 const { createSchedule } = require("../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryWrite.js");
+const { getAllSchedules } = require("../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryRead.js");
 const { getLaneById } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js");
 const { getClientById } = require("../../infrastructure/repositories/clientRepositories/clientRepositoryRead.js");
 const { AppError, NotFoundError } = require("../erros/customErros.js");
@@ -66,6 +67,15 @@ async function createScheduleService(date, startHour, bowlingLaneId, clientId) {
 
 }
 
+async function getAllSchedulesService() {
+    try {
+        return await getAllSchedules();
+    } catch (error) {
+        throw new AppError("Failed to get all schedules", error);
+    }
+}
+
 module.exports = {
     createScheduleService,
+    getAllSchedulesService,
 };
