@@ -5,6 +5,7 @@ const {
     getClientByDocumentIdService,
     getClientByScheduleService,
     updateClientByIdService,
+    deleteClientByIdService,
 } = require('../../domain/services/clientService.js');
 const { addScheduleOnClient } = require('../../infrastructure/repositories/clientRepositories/clientRepositoryWrite.js');
 const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
@@ -208,6 +209,26 @@ describe('clientService', () => {
                 const updatedData = { name: 'Jane Doe', age: 25 };
 
                 await expect(updateClientByIdService(nonExistentId, updatedData)).rejects.toThrow(AppError);
+            });
+        });
+
+        describe('deleteClientByIdService', () => {
+            it ('should delete a client by ID', async () => {
+                const name = 'John Doe';
+                const documentId = '123456789';
+                const age = 30;
+
+                const client = await createClientService(name, documentId, age);
+
+                await deleteClientByIdService(client._id);
+
+                await expect(getClientByIdService(client._id)).rejects.toThrow(AppError);
+            });
+
+            it ('should throw an error if client does not exist', async () => {
+                const nonExistentId = 'non-existent-id';
+
+                await expect(deleteClientByIdService(nonExistentId)).rejects.toThrow(AppError);
             });
         });
 }) ;
