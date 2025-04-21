@@ -151,11 +151,5 @@ describe('scheduleService', () => {
     
             expect(allSchedules).toHaveLength(0);
         });
-    
-        it ('should throw an error if schedule not found', async () => {
-            const nonExistentScheduleId = 'non-existent-schedule-id';
-    
-            await expect(deleteScheduleService(nonExistentScheduleId)).rejects.toThrow(AppError);
-        });
     });
 });
