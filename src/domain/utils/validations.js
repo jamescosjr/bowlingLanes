@@ -32,9 +32,26 @@ function validateClient(name, documentId, age) {
     return { valid: true };
 }
 
+function validateSchedule(date, startHour, bowlingLane) {
+    if (!date || !startHour || !bowlingLane) {
+        return { valid: false, message: 'All fields are required' };
+    }
+    if (isNaN(Date.parse(date))) {
+        return { valid: false, message: 'The date is not valid' };
+    }
+    if (typeof startHour !== 'number' || startHour < 16 || startHour > 22 || startHour % 2 !== 0) {
+        return { valid: false, message: 'The hour should be an even integer between 16 and 22' };
+    }
+    if (typeof bowlingLane !== 'string') {
+        return { valid: false, message: 'The bowling lane should be a string' };
+    }
+    return { valid: true };
+}
+
 module.exports = {
     validateBowlingLane,
     validateStartHour,
     dateValidation,
     validateClient,
+    validateSchedule,
 };
