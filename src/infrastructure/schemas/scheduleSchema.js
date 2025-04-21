@@ -16,13 +16,11 @@ const scheduleSchema = new mongoose.Schema({
         required: true,
     },
     bowlingLaneId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'bowlingLanes',
+        type: String,
         required: true,
     },
     clientId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'clients',
+        type: String,
         required: true,
     },
 }, { timestamps: true });
