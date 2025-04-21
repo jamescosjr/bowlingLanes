@@ -67,9 +67,22 @@ async function updateClientById(id, updatedData) {
     }
 }
 
+async function deleteClientById(id) {
+    try {
+        const result = await Client.deleteOne({ _id: id });
+        if (result.deletedCount === 0) {
+            throw new NotFoundError('Client not found', 404);
+        }
+        return result;
+    } catch (error) {
+        throw new AppError('Failed to delete client');
+    }
+}
+
 module.exports = { 
     createClient, 
     addScheduleOnClient, 
     removeScheduleOnClient,
     updateClientById,
+    deleteClientById,
 };
