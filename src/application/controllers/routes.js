@@ -4,6 +4,7 @@ const {
     getAllLanesController,
     getLaneByNameController,
     getLanesByScheduleController,
+    getLaneByIdController,
     updateLaneByIdController,
     deleteLaneByIdController,
  } = require('./bowlingLaneController.js');
@@ -18,6 +19,7 @@ routes.post('/bowling-lanes', createBowlingLaneController);
 routes.get('/bowling-lanes', getAllLanesController);
 routes.get('/bowling-lanes/name/:name', getLaneByNameController);
 routes.get('/bowling-lanes/schedule', getLanesByScheduleController);
+routes.get('/bowling-lanes/:id', getLaneByIdController);
 routes.put('/bowling-lanes/:id', updateLaneByIdController);
 routes.delete('/bowling-lanes/:id', deleteLaneByIdController);
 
