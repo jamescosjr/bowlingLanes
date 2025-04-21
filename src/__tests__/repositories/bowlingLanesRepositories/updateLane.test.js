@@ -93,7 +93,8 @@ describe('updates', () => {
                 {
                     date: new Date(2025, 7, 12),
                     startHour: '10:00',
-                    endHour: '12:00'
+                    endHour: '12:00',
+                    client: '123456',
                 }
     
                 const updatedLaneSchedule2 =
