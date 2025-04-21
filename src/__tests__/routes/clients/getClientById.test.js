@@ -41,7 +41,7 @@ describe('GET /clients/:id', () => {
         }));
 
         const response = await supertest(app)
-            .get(`/clients/${result.body._id}`)
+            .get(`/clients/id/${result.body._id}`)
             .expect(200);
 
         expect(response.body).toEqual(expect.objectContaining({
@@ -60,7 +60,7 @@ describe('GET /clients/:id', () => {
         const nonExistentId = 'non-existent-id';
 
         const response = await supertest(app)
-            .get(`/clients/${nonExistentId}`)
+            .get(`/clients/id/${nonExistentId}`)
             .expect(500);
 
         expect(response.status).toBe(500);
