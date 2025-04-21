@@ -1,6 +1,7 @@
 const { 
     createScheduleService,
     getAllSchedulesService,
+    deleteScheduleService
  } = require('../../domain/services/scheduleService.js');
 const { validateSchedule } = require('../../domain/utils/validations.js');
 const { ValidationError } = require("../../domain/erros/customErros.js");
@@ -29,7 +30,18 @@ async function getAllSchedulesController(req, res, next) {
     }
 }
 
+async function deleteScheduleController(req, res, next) {
+    try {
+        const { id } = req.params;
+        await deleteScheduleService(id);
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createScheduleController,
     getAllSchedulesController,
+    deleteScheduleController    
 };
