@@ -1,4 +1,7 @@
-const { createScheduleService } = require('../../domain/services/scheduleService.js');
+const { 
+    createScheduleService,
+    getAllSchedulesService,
+ } = require('../../domain/services/scheduleService.js');
 const { validateSchedule } = require('../../domain/utils/validations.js');
 const { ValidationError } = require("../../domain/erros/customErros.js");
 
@@ -17,6 +20,16 @@ async function createScheduleController(req, res, next) {
     }
 }
 
+async function getAllSchedulesController(req, res, next) {
+    try {
+        const schedules = await getAllSchedulesService();
+        res.status(200).json(schedules);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createScheduleController,
+    getAllSchedulesController,
 };
