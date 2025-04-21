@@ -14,6 +14,7 @@ const {
     getClientByIdController,
     getClientByDocumentIdController,
     getClientByScheduleController,
+    updateClientByIdController,
 } = require('../controllers/clientController.js')
 
 const routes = express.Router();
@@ -31,5 +32,6 @@ routes.get('/clients', getAllClientsController);
 routes.get('/clients/id/:id', getClientByIdController);
 routes.get('/clients/document/:documentId', getClientByDocumentIdController);
 routes.get('/clients/schedule', getClientByScheduleController);
+routes.put('/clients/:id', updateClientByIdController);
 
 module.exports = routes;
