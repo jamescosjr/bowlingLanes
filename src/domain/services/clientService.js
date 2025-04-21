@@ -1,6 +1,7 @@
 const {
     createClient,
     updateClientById,
+    deleteClientById,
 } = require('../../infrastructure/repositories/clientRepositories/clientRepositoryWrite.js');
 const { AppError } = require('../erros/customErros.js');
 const {
@@ -81,6 +82,18 @@ async function updateClientByIdService(id, updatedData) {
     }
 }
 
+async function deleteClientByIdService(id) {
+    try {
+        const result = await deleteClientById(id);
+        if (result.deletedCount === 0) {
+            throw new NotFoundError('Client not found');
+        }
+        return result;
+    } catch (error) {
+        throw new AppError('Failed to delete client', error);
+    }
+}
+
 module.exports = {
     createClientService,
     getAllClientsService,
@@ -88,4 +101,5 @@ module.exports = {
     getClientByDocumentIdService,
     getClientByScheduleService,
     updateClientByIdService,
+    deleteClientByIdService,
 };
