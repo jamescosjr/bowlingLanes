@@ -1,5 +1,8 @@
-const { createScheduleService } = require('../../domain/services/scheduleService.js');
-const { getAllSchedulesService } = require('../../domain/services/scheduleService.js');
+const { 
+    createScheduleService,
+    getAllSchedulesService,
+    deleteScheduleService, 
+} = require('../../domain/services/scheduleService.js');
 const { createBowlingLaneService, getLaneByIdService } = require('../../domain/services/bowlingLaneService.js');
 const { createClientService, getClientByIdService } = require('../../domain/services/clientService.js');
 const { connect, closeDatabase, clearDatabase } = require('../../../jest/jest.setup.js');
@@ -123,5 +126,36 @@ describe('scheduleService', () => {
     it ('should return an empty array if there are no schedules', async () => {
         const allSchedules = await getAllSchedulesService();
         expect(allSchedules).toHaveLength(0);
+    });
+
+    describe('deleteScheduleService', () => {
+        it ('should delete a schedule', async () => {
+            const laneName = 'Lane 1';
+            const newLane = await createBowlingLaneService(laneName);
+    
+            const clientName = 'John Doe';
+            const clientDocumentId = '123456789';
+            const clientAge = 30;
+            const newClient = await createClientService(clientName, clientDocumentId, clientAge);
+    
+            const clientId = newClient._id;
+            const bowlingLaneId = newLane._id;
+            const startHour = 16;
+            const date = new Date(2023, 10, 1);     
+    
+            const schedule = await createScheduleService(date, startHour, bowlingLaneId, clientId);
+    
+            await deleteScheduleService(schedule._id);
+    
+            const allSchedules = await getAllSchedulesService();
+    
+            expect(allSchedules).toHaveLength(0);
+        });
+    
+        it ('should throw an error if schedule not found', async () => {
+            const nonExistentScheduleId = 'non-existent-schedule-id';
+    
+            await expect(deleteScheduleService(nonExistentScheduleId)).rejects.toThrow(AppError);
+        });
     });
 });
