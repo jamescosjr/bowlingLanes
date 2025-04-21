@@ -42,5 +42,6 @@ routes.put('/clients/:id', updateClientByIdController);
 routes.delete('/clients/:id', deleteClientByIdController);
 
 routes.post('/schedules', createScheduleController);
+routes.get('/schedules', getAllSchedulesController);
 
 module.exports = routes;
