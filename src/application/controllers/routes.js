@@ -16,7 +16,12 @@ const {
     getClientByScheduleController,
     updateClientByIdController,
     deleteClientByIdController,
-} = require('../controllers/clientController.js')
+} = require('../controllers/clientController.js');
+const {
+    createScheduleController,
+    getAllSchedulesController,  
+    deleteScheduleByIdController,
+} = require('../controllers/scheduleController.js');
 
 const routes = express.Router();
 
@@ -35,5 +40,7 @@ routes.get('/clients/document/:documentId', getClientByDocumentIdController);
 routes.get('/clients/schedule', getClientByScheduleController);
 routes.put('/clients/:id', updateClientByIdController);
 routes.delete('/clients/:id', deleteClientByIdController);
+
+routes.post('/schedules', createScheduleController);
 
 module.exports = routes;
