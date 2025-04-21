@@ -3,9 +3,10 @@ const {
     getAllClientsService,
     getClientByIdService,
     getClientByDocumentIdService,
+    getClientByScheduleService,
 } = require('../../domain/services/clientService.js');
 const { ValidationError } = require("../../domain/erros/customErros.js");
-const { validateClient } = require('../../domain/utils/validations.js');
+const { validateClient, validateStartHour, dateValidation } = require('../../domain/utils/validations.js');
 
 
 async function createClientController(req, res, next) {
@@ -51,9 +52,33 @@ async function getClientByDocumentIdController(req, res, next) {
     }
 }
 
+async function getClientByScheduleController(req, res, next) {
+    try {
+        const { date, startHour } = req.query;
+
+        const parsedStartHour = parseInt(startHour, 10);
+        const validation = validateStartHour(parsedStartHour);
+
+        if (!validation.valid) {
+            return next(new ValidationError(validation.message));
+        }
+
+        const validDate = dateValidation(date);
+        if (!validDate.valid) {
+            return next(new ValidationError(validDate.message));
+        }
+
+        const result = await getClientByScheduleService({ date, startHour: parsedStartHour });
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createClientController,
     getAllClientsController,
     getClientByIdController,
     getClientByDocumentIdController,
+    getClientByScheduleController,
 }
