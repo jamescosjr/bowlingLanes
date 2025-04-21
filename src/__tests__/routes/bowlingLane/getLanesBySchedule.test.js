@@ -26,7 +26,8 @@ describe('POST /bowling-lanes', () => {
         const newSchedule = {
             date: new Date(2025, 7, 12),
             startHour: '16:00',
-            endHour: '18:00'
+            endHour: '18:00',
+            client: '123456'
         };
     
         await addScheduleOnLane(newLane.name, newSchedule);
