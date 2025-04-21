@@ -1,12 +1,13 @@
 openapi: 3.0.0
 info:
-  title: Bowling Lanes API
+  title: Bowling Lane Scheduling API
   version: 1.0.0
+  description: API para gerenciamento de pistas de boliche, clientes e agendamentos
+
 paths:
   /bowling-lanes:
     post:
-      summary: Create a new bowling lane
-      operationId: createBowlingLane
+      summary: Criar nova pista de boliche
       requestBody:
         required: true
         content:
@@ -16,110 +17,233 @@ paths:
               properties:
                 name:
                   type: string
-                  example: "Lane 1"
       responses:
         '201':
-          description: Bowling lane created successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: "12345"
-                  name:
-                    type: string
-                    example: "Lane 1"
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: "2021-01-01T00:00:00Z"
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    example: "2021-01-01T00:00:00Z"
-                  laneSchedule:
-                    $ref: '#/components/schemas/LaneSchedule'
+          description: Pista criada com sucesso
         '400':
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Invalid lane name"
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Internal server error"
-
-  /bowling-lanes/{name}:
+          description: Erro de validação
     get:
-      summary: Get a bowling lane by name
-      operationId: getBowlingLane
-      parameters:
-        - name: name
-          in: path
-          required: true
-          description: The name of the bowling lane
-          schema:
-            type: string
-            example: "Lane 1"
+      summary: Listar todas as pistas
       responses:
         '200':
-          description: Bowling lane retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: "12345"
-                  name:
-                    type: string
-                    example: "Lane 1"
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: "2021-01-01T00:00:00Z"
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    example: "2021-01-01T00:00:00Z"
-                  laneSchedule:
-                    $ref: '#/components/schemas/LaneSchedule'
-        '404':
-          description: Bowling lane not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Bowling lane not found"
+          description: Lista de pistas
 
-components:
-  schemas:
-    LaneSchedule:
-      type: object
-      properties:
-        day:
-          type: string
-          example: "Monday"
-        openTime:
-          type: integer
-          example: 16
-        closeTime:
-          type: integer
-          example: 22
+  /bowling-lanes/name/{name}:
+    get:
+      summary: Buscar pista pelo nome
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pista encontrada
+
+  /bowling-lanes/schedule:
+    get:
+      summary: Buscar pistas por horário disponível
+      parameters:
+        - in: query
+          name: date
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: startHour
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pistas disponíveis
+
+  /bowling-lanes/id/{id}:
+    get:
+      summary: Buscar pista por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pista encontrada
+
+  /bowling-lanes/{id}:
+    put:
+      summary: Atualizar pista por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Pista atualizada
+    delete:
+      summary: Deletar pista por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Pista deletada
+
+  /clients:
+    post:
+      summary: Criar cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                documentId:
+                  type: string
+                age:
+                  type: integer
+      responses:
+        '201':
+          description: Cliente criado
+    get:
+      summary: Listar clientes
+      responses:
+        '200':
+          description: Lista de clientes
+
+  /clients/id/{id}:
+    get:
+      summary: Buscar cliente por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cliente encontrado
+
+  /clients/document/{documentId}:
+    get:
+      summary: Buscar cliente por documento
+      parameters:
+        - in: path
+          name: documentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cliente encontrado
+
+  /clients/schedule:
+    get:
+      summary: Buscar clientes por agendamento
+      parameters:
+        - in: query
+          name: date
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: startHour
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Clientes encontrados
+
+  /clients/{id}:
+    put:
+      summary: Atualizar cliente por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Cliente atualizado
+    delete:
+      summary: Deletar cliente por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Cliente deletado
+
+  /schedules:
+    post:
+      summary: Criar agendamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                startHour:
+                  type: integer
+                bowlingLaneId:
+                  type: string
+                clientId:
+                  type: string
+      responses:
+        '201':
+          description: Agendamento criado
+    get:
+      summary: Listar agendamentos
+      responses:
+        '200':
+          description: Lista de agendamentos
+
+  /schedules/{id}:
+    delete:
+      summary: Deletar agendamento por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Agendamento deletado
