@@ -51,8 +51,25 @@ async function removeScheduleOnClient(documentId, scheduleToRemove) {
     }
 }
 
+async function updateClientById(id, updatedData) {
+    try {
+        const result = await Client.updateOne(
+            { _id: id },
+            { $set: updatedData }
+        );
+
+        if (result.matchedCount === 0) {
+            throw new NotFoundError('Client not found', 404);
+        }
+        return result;
+    } catch (error) {
+        throw new AppError('Failed to update client');
+    }
+}
+
 module.exports = { 
     createClient, 
     addScheduleOnClient, 
     removeScheduleOnClient,
+    updateClientById,
 };
