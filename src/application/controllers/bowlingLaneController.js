@@ -3,6 +3,7 @@ const {
     getAllLanesService,
     getLaneByNameService,
     getLanesByScheduleService,
+    getLaneByIdService,
     updateLaneByIdService,
     deleteLaneByIdService,
   } = require("../../domain/services/bowlingLaneService.js");
@@ -66,6 +67,16 @@ async function getLanesByScheduleController(req, res, next) {
     }
 }
 
+async function getLaneByIdController(req, res, next) {
+    try {
+        const { id } = req.params;
+        const result = await getLaneByIdService(id);
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
 async function updateLaneByIdController(req, res, next) {
     try {
         const { id } = req.params;
@@ -101,4 +112,5 @@ module.exports = {
     getLanesByScheduleController,
     updateLaneByIdController,
     deleteLaneByIdController,
+    getLaneByIdController,
 }
