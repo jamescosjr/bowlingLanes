@@ -5,6 +5,7 @@ const {
     getClientByDocumentIdService,
     getClientByScheduleService,
     updateClientByIdService,
+    deleteClientByIdService,
 } = require('../../domain/services/clientService.js');
 const { ValidationError } = require("../../domain/erros/customErros.js");
 const { validateClient, validateStartHour, dateValidation } = require('../../domain/utils/validations.js');
@@ -87,6 +88,16 @@ async function updateClientByIdController(req, res, next) {
     }
 }
 
+async function deleteClientByIdController(req, res, next) {
+    try {
+        const { id } = req.params;
+        await deleteClientByIdService(id);
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createClientController,
     getAllClientsController,
@@ -94,4 +105,5 @@ module.exports = {
     getClientByDocumentIdController,
     getClientByScheduleController,
     updateClientByIdController,
+    deleteClientByIdController,
 }
