@@ -190,6 +190,19 @@ describe('Bowling Lane Service', () => {
     
             await expect(deleteLaneByIdService(lane.id)).rejects.toThrowError(AppError);
         });
+
+        it ('should not delete if the lane has schedules', async () => {
+            const lane = await createBowlingLaneService('Lane 1');
+            const currentDate = normalizeDate(new Date());
+
+            await addScheduleOnLane(lane.name, {
+                date: currentDate,
+                startHour: '10:00',
+                endHour: '12:00',
+            });
+
+            await expect(deleteLaneByIdService(lane.id)).rejects.toThrowError(AppError);
+        })
     });
 });
 
