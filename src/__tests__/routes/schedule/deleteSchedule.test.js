@@ -3,7 +3,9 @@ const { connect, closeDatabase, clearDatabase } = require('../../../../jest/jest
 const app = require('../../../server.js');
 const { createClientService } = require('../../../domain/services/clientService.js');
 const { createBowlingLaneService } = require('../../../domain/services/bowlingLaneService.js');
+const { getLaneById } = require('../../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js');
 const { createSchedule } = require('../../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryWrite.js');
+const { getClientById } = require('../../../infrastructure/repositories/clientRepositories/clientRepositoryRead.js');
 
 beforeAll(async () => {
     await connect();
@@ -45,6 +47,14 @@ describe('DELETE /schedules/:id', () => {
         const scheduleId = scheduleResponse._id;
 
         const response = await supertest(app).delete(`/schedules/${scheduleId}`);
+
+        const bowlingLane = await getLaneById(newSchedule.bowlingLaneId);
+
+        expect(bowlingLane.laneSchedule).toEqual([]);
+
+        const client = await getClientById(newSchedule.clientId);
+
+        expect(client.clientSchedule).toEqual([]);
 
         expect(response.status).toBe(204);
     });
