@@ -15,4 +15,44 @@ async function createClient(name, clientSchedule, documentId, age) {
     }
 }
 
-module.exports = { createClient };
+async function addScheduleOnClient(documentId, clientSchedule) {
+    if (!clientSchedule) {
+        throw new AppError('Invalid schedule provided');
+    }
+    try {
+        const result = await Client.updateOne(
+            { documentId: documentId },
+            { $push: { clientSchedule } }
+        );
+
+        if (result.matchedCount === 0) {
+            throw new NotFoundError('Client not found', 404);
+        }
+    } catch (error) {
+        throw new AppError('Failed to update client');
+    }
+}
+
+async function removeScheduleOnClient(documentId, scheduleToRemove) {
+    if (!scheduleToRemove) {
+        throw new AppError('Invalid schedule to remove provided');
+    }
+    try {
+        const result = await Client.updateOne(
+            { documentId: documentId },
+            { $pull: { clientSchedule: scheduleToRemove } }
+        );
+
+        if (result.matchedCount === 0) {
+            throw new NotFoundError('Client not found', 404);
+        }
+    } catch (error) {
+        throw new AppError('Failed to update client');
+    }
+}
+
+module.exports = { 
+    createClient, 
+    addScheduleOnClient, 
+    removeScheduleOnClient,
+};
