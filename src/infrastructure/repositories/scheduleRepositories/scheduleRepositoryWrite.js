@@ -16,6 +16,18 @@ async function createSchedule(date, startHour, endHour, bowlingLaneId, clientId)
     }
 }
 
+async function deleteSchedule(id) {
+    try {
+        const result = await Schedule.deleteOne({ _id: id });
+        if (result.deletedCount === 0) {
+            throw new NotFoundError('Schedule not found', 404);
+        }
+    } catch (error) {
+        throw new AppError('Failed to delete schedule');
+    }
+}
+
 module.exports = {
     createSchedule,
+    deleteSchedule,
 };
