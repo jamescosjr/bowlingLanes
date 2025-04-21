@@ -6,6 +6,7 @@ const {
     getAllClients,
     getClientById,
     getClientByDocumentId,
+    getClientBySchedule,
 } = require('../../infrastructure/repositories/clientRepositories/clientRepositoryRead.js');
 const { NotFoundError } = require('../erros/customErros.js');
 
@@ -52,9 +53,22 @@ async function getClientByDocumentIdService(documentId) {
     }
 }
 
+async function getClientByScheduleService({ date, startHour, endHour }) {
+    try {
+        const client = await getClientBySchedule({ date, startHour, endHour });
+        if (!client) {
+            throw new NotFoundError('Client not found');
+        }
+        return client;
+    } catch (error) {
+        throw new AppError('Failed to get client by schedule', error);
+    }
+}
+
 module.exports = {
     createClientService,
     getAllClientsService,
     getClientByIdService,
     getClientByDocumentIdService,
+    getClientByScheduleService,
 };
