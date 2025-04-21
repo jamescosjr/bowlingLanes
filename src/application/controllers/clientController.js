@@ -2,6 +2,7 @@ const {
     createClientService,
     getAllClientsService,
     getClientByIdService,
+    getClientByDocumentIdService,
 } = require('../../domain/services/clientService.js');
 const { ValidationError } = require("../../domain/erros/customErros.js");
 const { validateClient } = require('../../domain/utils/validations.js');
@@ -40,8 +41,19 @@ async function getClientByIdController(req, res, next) {
     }
 }
 
+async function getClientByDocumentIdController(req, res, next) {
+    try {      
+        const { documentId } = req.params;
+        const client = await getClientByDocumentIdService(documentId);
+        res.status(200).json(client);
+    } catch (error) {
+        next(error);       
+    }
+}
+
 module.exports = {
     createClientController,
     getAllClientsController,
     getClientByIdController,
+    getClientByDocumentIdController,
 }
