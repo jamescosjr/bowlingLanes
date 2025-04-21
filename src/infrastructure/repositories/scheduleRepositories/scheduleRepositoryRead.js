@@ -10,6 +10,20 @@ async function getAllSchedules() {
     }    
 }
 
+async function getScheduleById(id) {
+    
+    try {
+        const schedule = await Schedule.findById(id);
+        if (!schedule) {
+            throw new AppError('Schedule not found', 404);
+        }
+        return schedule;
+    } catch (error) {
+        throw new AppError('Error fetching schedule by ID', 500);
+    }
+}
+
 module.exports = {
     getAllSchedules,
+    getScheduleById,
 };
