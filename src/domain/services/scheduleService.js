@@ -1,13 +1,13 @@
 const { createSchedule, deleteSchedule } = require("../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryWrite.js");
-const { getAllSchedules } = require("../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryRead.js");
+const { getAllSchedules, getScheduleById } = require("../../infrastructure/repositories/scheduleRepositories/scheduleRepositoryRead.js");
 const { getLaneById } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js");
 const { getClientById } = require("../../infrastructure/repositories/clientRepositories/clientRepositoryRead.js");
 const { AppError, NotFoundError } = require("../erros/customErros.js");
 const { normalizeDate,
     integerToStringHour,
 } = require("../utils/dates.js");
-const { addScheduleOnClient } = require("../../infrastructure/repositories/clientRepositories/clientRepositoryWrite.js");
-const { addScheduleOnLane } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js");
+const { addScheduleOnClient, removeScheduleOnClient } = require("../../infrastructure/repositories/clientRepositories/clientRepositoryWrite.js");
+const { addScheduleOnLane, removeScheduleOnLane } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js");
 const { ObjectId } = require("mongodb");
 
 async function createScheduleService(date, startHour, bowlingLaneId, clientId) {
@@ -58,8 +58,9 @@ async function createScheduleService(date, startHour, bowlingLaneId, clientId) {
             normalizedDate,
             normalizedStartHour,
             endHour,
+            bowlingLaneId,
             clientId,
-            bowlingLaneId
+            
         );
     } catch (error) {
         throw new AppError("Failed to create schedule", error);
@@ -77,8 +78,49 @@ async function getAllSchedulesService() {
 
 async function deleteScheduleService(id) {
     try {
-        const schedule = await deleteSchedule(id);
-        return schedule;
+        const schedule = await getScheduleById(id);
+        if (!schedule) {
+            throw new NotFoundError("Schedule not found");
+        }
+
+        const startHour = schedule.startHour;
+        const endHour = schedule.endHour;
+        const date = schedule.date;
+
+        const clientId = schedule.clientId;
+        const bowlingLaneId = schedule.bowlingLaneId;
+
+        const client = await getClientById(clientId);
+        if (!client) {
+            throw new NotFoundError("Client not found");
+        }
+
+        const documentId = client.documentId;
+        const clientSchedule = {
+            date,
+            startHour,
+            endHour,
+        }
+
+        await removeScheduleOnClient(documentId, clientSchedule);
+
+        
+        const lane = await getLaneById(bowlingLaneId);
+        
+        if (!lane) {
+            throw new NotFoundError("Lane not found");
+        }
+
+        const laneName = lane.name;
+        const laneSchedule = {
+            date,
+            startHour,
+            endHour,
+        }
+
+        await removeScheduleOnLane(laneName, laneSchedule);
+
+        await deleteSchedule(id);
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error;
