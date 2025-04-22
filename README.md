@@ -33,11 +33,8 @@ cd bowling-lane-api
 npm install
 Crie um arquivo .env com as seguintes variáveis:
 
-ini
-Copiar
-Editar
 PORT=3000
-MONGO_URI=mongodb://localhost:27017/bowling
+MONGO_URI=mongodb://localhost:27017/
 Inicie o servidor:
 npm run dev
 
@@ -91,6 +88,7 @@ DELETE /schedules/:id → Cancelar agendamento
   id: string;
   name: string;
 }
+
 🙋 Client
 {
   id: string;
@@ -98,6 +96,7 @@ DELETE /schedules/:id → Cancelar agendamento
   documentId: string;
   age: number;
 }
+
 ⏰ Schedule
 {
   id: string;
@@ -106,14 +105,13 @@ DELETE /schedules/:id → Cancelar agendamento
   bowlingLaneId: string;
   clientId: string;
 }
+
 🧪 Testes
 Para rodar os testes automatizados:
-
-
-Copiar
-Editar
 npm test
+
 📄 Licença
 Este projeto está licenciado sob a licença MIT.
 
 Desenvolvido com 💙 por James Junior
+```
