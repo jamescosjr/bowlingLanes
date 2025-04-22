@@ -8,7 +8,6 @@ const { normalizeDate,
 } = require("../utils/dates.js");
 const { addScheduleOnClient, removeScheduleOnClient } = require("../../infrastructure/repositories/clientRepositories/clientRepositoryWrite.js");
 const { addScheduleOnLane, removeScheduleOnLane } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryWrite.js");
-const { ObjectId } = require("mongodb");
 
 async function createScheduleService(date, startHour, bowlingLaneId, clientId) {
     try {
