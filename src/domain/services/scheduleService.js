@@ -23,6 +23,17 @@ async function createScheduleService(date, startHour, bowlingLaneId, clientId) {
 
     const laneName = lane.name;
 
+    const existentLaneSchedule = lane.laneSchedule.find((schedule) => {
+        return (
+            schedule.date === normalizedDate &&
+            schedule.startHour === normalizedStartHour
+        );
+    });
+
+    if (existentLaneSchedule) {
+        throw new AppError("Lane already booked for this time");
+    }
+
     const client = await getClientById(clientId);
 
     if (!client) {
@@ -32,6 +43,15 @@ async function createScheduleService(date, startHour, bowlingLaneId, clientId) {
     const clientName = client.name;
     const documentId = client.documentId;
 
+    const existentClientSchedule = client.clientSchedule.find((schedule) => {
+        return (
+            schedule.date === normalizedDate &&
+            schedule.startHour === normalizedStartHour
+        );
+    });
+    if (existentClientSchedule) {
+        throw new AppError("Client already booked for this time");
+    }
 
     const clientSchedule = {
         date: normalizedDate,
