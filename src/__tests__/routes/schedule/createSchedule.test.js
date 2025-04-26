@@ -36,6 +36,10 @@ describe('POST /schedules', () => {
         const response = await supertest(app).post('/schedules').send(newSchedule);
 
         expect(response.status).toBe(201);
+
+        const response2 = await supertest(app).post('/schedules').send(newSchedule);
+
+        expect(response2.text).toContain('schedule already exists')
     });
 
     it ('should return 400 if the schedule data is invalid', async () => {
