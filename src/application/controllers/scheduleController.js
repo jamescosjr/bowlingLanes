@@ -23,8 +23,16 @@ async function createScheduleController(req, res, next) {
 
 async function getAllSchedulesController(req, res, next) {
     try {
-        const schedules = await getAllSchedulesService();
-        res.status(200).json(schedules);
+        const { date, startHour, bowlingLaneId, clientId, page = 1, limit = 10 } = req.query;
+        const filters = {};
+
+        if (date) filters.date = date;
+        if (startHour) filters.startHour = startHour;
+        if (bowlingLaneId) filters.bowlingLaneId = bowlingLaneId;
+        if (clientId) filters.clientId = clientId;
+
+        const result = await getAllSchedulesService(filters, Number(page), Number(limit));
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
