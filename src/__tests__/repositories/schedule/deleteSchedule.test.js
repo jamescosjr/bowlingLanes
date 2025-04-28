@@ -28,7 +28,7 @@ describe('deleteSchedule', () => {
 
         expect(schedule._id).toBeDefined();
 
-        const allSchedules = await getAllSchedules();
+        const allSchedules = await getAllSchedules({ filter: {}, page: 1, limit: 10 });
 
         expect(allSchedules).toHaveLength(0);
     });
