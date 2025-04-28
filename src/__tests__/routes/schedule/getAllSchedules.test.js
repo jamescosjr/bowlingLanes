@@ -52,6 +52,37 @@ describe('GET /schedules', () => {
             startHour: '16:00',
             bowlingLaneId: expect.any(String),
             clientId: expect.any(String),
+        });    
+    });
+    it('should filter schedules by date and startHour', async () => {
+        const laneName = 'Lane 1';
+        const newLane = await createBowlingLaneService(laneName);
+    
+        const clientName = 'Jane Doe';
+        const clientDocumentId = '987654321';
+        const clientAge = 25;
+        const newClient = await createClientService(clientName, clientDocumentId, clientAge);
+    
+        const newSchedule = {
+            date: new Date(2023, 10, 1),
+            startHour: 16,
+            bowlingLaneId: newLane._id,
+            clientId: newClient._id,
+        };
+    
+        await supertest(app).post('/schedules').send(newSchedule);
+    
+        const filteredResponse = await supertest(app)
+            .get('/schedules')
+            .query({ date: newSchedule.date.toISOString(), startHour: '16:00' });
+    
+        expect(filteredResponse.status).toBe(200);
+        expect(filteredResponse.body).toHaveLength(1);
+        expect(filteredResponse.body[0]).toMatchObject({
+            date: newSchedule.date.toISOString(),
+            startHour: '16:00',
+            bowlingLaneId: expect.any(String),
+            clientId: expect.any(String),
         });
     });
 });
