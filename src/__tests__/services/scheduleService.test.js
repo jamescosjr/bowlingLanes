@@ -111,7 +111,7 @@ describe('scheduleService', () => {
     
             await createScheduleService(date, startHour, bowlingLaneId, clientId);
     
-            const allSchedules = await getAllSchedulesService();
+            const allSchedules = await getAllSchedulesService({ filter: {}, page: 1, limit: 10 });
     
             expect(allSchedules).toHaveLength(1);
             expect(allSchedules[0]).toMatchObject({
@@ -124,7 +124,7 @@ describe('scheduleService', () => {
         })
     })
     it ('should return an empty array if there are no schedules', async () => {
-        const allSchedules = await getAllSchedulesService();
+        const allSchedules = await getAllSchedulesService({ filter: {}, page:1, limit:10 });
         expect(allSchedules).toHaveLength(0);
     });
 
@@ -147,7 +147,7 @@ describe('scheduleService', () => {
     
             await deleteScheduleService(schedule._id);
     
-            const allSchedules = await getAllSchedulesService();
+            const allSchedules = await getAllSchedulesService({ filter: {}, page: 1, limit: 10 });
     
             expect(allSchedules).toHaveLength(0);
         });
