@@ -45,4 +45,6 @@ routes.post('/schedules', createScheduleController);
 routes.get('/schedules', getAllSchedulesController);
 routes.delete('/schedules/:id', deleteScheduleController)
 
+// routes.get('/dashboard', dashboardInfoController);
+
 module.exports = routes;
