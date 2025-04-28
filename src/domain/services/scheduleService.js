@@ -87,9 +87,13 @@ async function createScheduleService(date, startHour, bowlingLaneId, clientId) {
 
 }
 
-async function getAllSchedulesService() {
+async function getAllSchedulesService(filter, page, limit) {
     try {
-        return await getAllSchedules();
+        const skip = (page - 1) * limit;
+
+        const schedules = await getAllSchedules(filter, skip, limit);
+
+        return schedules;
     } catch (error) {
         throw new AppError("Failed to get all schedules", error);
     }
