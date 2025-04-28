@@ -34,7 +34,7 @@ describe('getAllSchedules', () => {
             updatedAt: expect.any(Date),
         });
 
-        const allSchedules = await getAllSchedules();
+        const allSchedules = await getAllSchedules({ filter: {}, page: 1, limit: 10 });
         expect(allSchedules).toHaveLength(1);
         expect(allSchedules[0].toObject()).toMatchObject({
             date,
@@ -48,7 +48,7 @@ describe('getAllSchedules', () => {
     });
 
     it ('should return an empty array if there are no schedules', async () => {
-        const allSchedules = await getAllSchedules();
+        const allSchedules = await getAllSchedules({ filter: {}, page: 1, limit: 10 });
         expect(allSchedules).toHaveLength(0);
     });
 });
