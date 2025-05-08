@@ -104,11 +104,17 @@ async function getDashboardInfoService() {
         let totalTodaySchedules = 0;
 
         for (const lane of lanes) {
-            if (lane.laneSchedule.length > 0 && now.getDate() === new Date(lane.laneSchedule[0].date).getDate()) {
+            if (
+                lane.laneSchedule.length > 0 &&
+                lane.laneSchedule[0].date &&
+                lane.laneSchedule[0].startHour &&
+                lane.laneSchedule[0].endHour &&
+                now.getDate() === new Date(lane.laneSchedule[0].date).getDate()
+            ) {
                 const startHour = parseInt(lane.laneSchedule[0].startHour.split(':')[0]);
                 const endHour = parseInt(lane.laneSchedule[0].endHour.split(':')[0]);
 
-                if (currentHour >= startHour && currentHour < endHour) {
+                if (!isNaN(startHour) && !isNaN(endHour) && currentHour >= startHour && currentHour < endHour) {
                     lane.isAvailable = false;
                 }
             }
