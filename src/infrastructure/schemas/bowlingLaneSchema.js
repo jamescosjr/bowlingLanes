@@ -18,7 +18,11 @@ const bowlingLaneSchema = new mongoose.Schema({
     laneSchedule: {
         type: [laneScheduleSchema],
         default: []
-    }
+    },
+    isAvailable: {
+        type: Boolean,
+        default: true,
+    },
 
 }, { timestamps: true });
 
