@@ -7,6 +7,7 @@ const {
     getLaneByIdController,
     updateLaneByIdController,
     deleteLaneByIdController,
+    dashboardInfoController,
  } = require('./bowlingLaneController.js');
 const {
     createClientController,
@@ -45,6 +46,6 @@ routes.post('/schedules', createScheduleController);
 routes.get('/schedules', getAllSchedulesController);
 routes.delete('/schedules/:id', deleteScheduleController)
 
-// routes.get('/dashboard', dashboardInfoController);
+routes.get('/dashboard', dashboardInfoController);
 
 module.exports = routes;
