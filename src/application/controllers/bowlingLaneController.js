@@ -6,6 +6,7 @@ const {
     getLaneByIdService,
     updateLaneByIdService,
     deleteLaneByIdService,
+    getDashboardInfoService,
   } = require("../../domain/services/bowlingLaneService.js");
 const { validateBowlingLane, validateStartHour, dateValidation  } = require("../../domain/utils/validations.js");
 const { ValidationError } = require("../../domain/erros/customErros.js");
@@ -104,6 +105,15 @@ async function deleteLaneByIdController(req, res, next) {
     }
 }
 
+async function dashboardInfoController(req, res, next) {
+    try {
+        const result = await getDashboardInfoService();
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 module.exports = {
     createBowlingLaneController,
@@ -113,4 +123,5 @@ module.exports = {
     updateLaneByIdController,
     deleteLaneByIdController,
     getLaneByIdController,
+    dashboardInfoController
 }
