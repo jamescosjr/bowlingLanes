@@ -11,6 +11,7 @@ const {
     getLaneById,
  } = require("../../infrastructure/repositories/bowlingLaneRepositories/bowlingLaneRepositoryRead.js");
  const { normalizeDate, integerToStringHour } = require("../../domain/utils/dates.js");
+const { getAllClients } = require("../../infrastructure/repositories/clientRepositories/clientRepositoryRead.js");
 
 async function createBowlingLaneService(name) {
     try {
@@ -48,7 +49,8 @@ async function getLanesByScheduleService({date, startHour}) {
     const normalizedStartHour = integerToStringHour(startHour);
 
     const endHour = integerToStringHour(startHour + 2);
-        return await getLanesBySchedule({date: normalizedDate, startHour: normalizedStartHour, endHour});
+
+    return await getLanesBySchedule({date: normalizedDate, startHour: normalizedStartHour, endHour});
     } catch (error) {
         throw new AppError('Failed to get lanes by schedule', error);
     }
@@ -87,6 +89,54 @@ async function deleteLaneByIdService(id) {
     }
 }
 
+async function getDashboardInfoService() {
+    try {
+        const lanes = await getAllLanes();
+        const totalLanes = lanes.length;
+
+        const now = new Date();
+        let currentHour = now.getHours();
+
+        if (currentHour % 2 !== 0) {
+            currentHour = currentHour - 1;
+        }
+
+        let totalTodaySchedules = 0;
+
+        for (const lane of lanes) {
+            if (lane.laneSchedule.length > 0 && now.getDate() === new Date(lane.laneSchedule[0].date).getDate()) {
+                const startHour = parseInt(lane.laneSchedule[0].startHour.split(':')[0]);
+                const endHour = parseInt(lane.laneSchedule[0].endHour.split(':')[0]);
+
+                if (currentHour >= startHour && currentHour < endHour) {
+                    lane.isAvailable = false;
+                }
+            }
+
+            const todaySchedules = lane.laneSchedule.filter(schedule => {
+                const scheduleDate = new Date(schedule.date);
+                return scheduleDate.getDate() === now.getDate();
+            });
+            totalTodaySchedules += todaySchedules.length;
+        }
+
+        const totalLanesInUseNow = lanes.filter(lane => !lane.isAvailable).length;
+
+        const occupationRate = (totalTodaySchedules / (totalLanes * 4)) * 100;
+
+        const registersClients = await getAllClients();
+        const totalClients = registersClients.length;
+        const totalClientsThisWeek = registersClients.filter(client => {
+            const clientDate = new Date(client.createdAt);
+            return clientDate.getDate() === now.getDate();
+        }).length;
+
+        return { occupationRate, totalClients, totalClientsThisWeek, totalLanes, totalLanesInUseNow, totalTodaySchedules };
+    } catch (error) {
+        throw new AppError('Failed to get dashboard info', error);
+    }
+}
+
 module.exports = {
     createBowlingLaneService,
     getAllLanesService,
@@ -95,4 +145,5 @@ module.exports = {
     updateLaneByIdService,
     deleteLaneByIdService,
     getLaneByIdService,
+    getDashboardInfoService,
 }
