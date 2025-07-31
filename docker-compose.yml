@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: bowling-lanes-api
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    networks:
+      - app-net
+    environment:
+      PORT: 3000
+      MONGO_URI: mongodb+srv://jamescosjr:Kkk5y8owka5M1pUP@bookmanagement.3sjpv.mongodb.net/bowling-lanes?retryWrites=true&w=majority
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    container_name: bowling-lanes-mongo
+    restart: unless-stopped
+    networks:
+      - app-net
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
