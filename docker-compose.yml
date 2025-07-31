@@ -11,7 +11,7 @@ services:
       - app-net
     environment:
       PORT: 3000
-      MONGO_URI: ${MONGO_URI}
+      MONGODB_URI: ${MONGODB_URI}
     depends_on:
       - mongo
 
