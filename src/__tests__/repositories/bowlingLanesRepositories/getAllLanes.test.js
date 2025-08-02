@@ -45,4 +45,16 @@ describe('getAllLanes', () => {
 
         expect(result).toHaveLength(0);
     });
+
+    it('should return more than 10 lanes with pagination', async () => {
+        for (let i = 1; i <= 15; i++) {
+            await createBowlingLane(`Lane ${i}`, []);
+        }
+
+        const result = await getAllLanes({}, 2, 10);
+
+        expect(result).toHaveLength(5);
+        expect(result[0].name).toBe('Lane 11');
+        expect(result[4].name).toBe('Lane 15');
+    });
 });

@@ -50,4 +50,14 @@ describe('getAllClients', () => {
         const allClients = await getAllClients();
         expect(allClients).toHaveLength(0);
     });
+
+    it ('should return more than 10 clients', async () => {
+        for (let i = 1; i <= 15; i++) {
+            await createClient(`Client ${i}`, [], `documentId${i}`, 20 + i);
+        }
+
+
+        const allClients = await getAllClients();
+        expect(allClients).toHaveLength(15);
+    });
 })
