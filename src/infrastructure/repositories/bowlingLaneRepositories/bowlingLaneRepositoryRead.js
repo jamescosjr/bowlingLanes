@@ -1,7 +1,7 @@
 const BowlingLane = require("../../schemas/bowlingLaneSchema");
 const { AppError, NotFoundError } = require("../../../domain/erros/customErros");
 
-async function getAllLanes(filter = {}, page = 1, limit = 10) {
+async function getAllLanes(filter = {}, page = 1, limit = 30) {
     try {
         const skip = (page - 1) * limit;
         return await BowlingLane.find(filter).skip(skip).limit(limit);
