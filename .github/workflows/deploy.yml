@@ -1,0 +1,68 @@
+# Nome do nosso workflow de automação
+name: Test and Deploy API to VPS
+
+# Gatilho: rodar a cada 'push' na branch 'main'
+on:
+  push:
+    branches: [ main ]
+
+# Lista de tarefas (Jobs)
+jobs:
+  # --- JOB 1: RODAR OS TESTES ---
+  test:
+    name: Run Unit & Integration Tests
+    # O robô vai usar um ambiente virtual Linux para os testes
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1.1: Clona o código do repositório
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Passo 1.2: Configura o ambiente Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use a mesma versão do seu Dockerfile
+
+      # Passo 1.3: Instala TODAS as dependências (incluindo devDependencies)
+      - name: Install dependencies
+        run: npm install
+
+      # Passo 1.4: Roda o comando de teste
+      # Se este comando falhar (sair com código diferente de 0), o workflow para.
+      - name: Run tests
+        run: npm test
+
+  # --- JOB 2: FAZER O DEPLOY (só roda se o 'test' passar) ---
+  deploy:
+    name: Deploy to VPS
+    # Precisa que o job 'test' termine com sucesso
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 2.1: Conecta na VPS e executa os comandos de deploy
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            echo ">>> Iniciando deploy na VPS..."
+            cd ~/bowlingLanes
+            
+            echo ">>> Puxando código do repositório..."
+            git pull origin main
+            
+            echo ">>> Parando serviços antigos..."
+            docker-compose down
+            
+            echo ">>> Reconstruindo e subindo os serviços..."
+            docker-compose up --build -d
+            
+            echo ">>> Limpando imagens antigas..."
+            docker image prune -f
+            
+            echo ">>> Deploy finalizado com sucesso!"
