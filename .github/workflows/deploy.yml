@@ -51,6 +51,8 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
           script: |
+            set -e
+            
             echo ">>> Iniciando deploy na VPS..."
             cd ~/bowlingLanes
             
