@@ -128,7 +128,8 @@ async function getDashboardInfoService() {
 
         const totalLanesInUseNow = lanes.filter(lane => !lane.isAvailable).length;
 
-        const occupationRate = (totalTodaySchedules / (totalLanes * 4)) * 100;
+        const occupationRateNumber = (totalTodaySchedules / (totalLanes * 4)) * 100;
+        const occupationRate = occupationRateNumber.toFixed(2) + '%';
 
         const registersClients = await getAllClients();
         const totalClients = registersClients.length;
