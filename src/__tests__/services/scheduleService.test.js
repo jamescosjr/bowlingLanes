@@ -118,8 +118,8 @@ describe('scheduleService', () => {
                 date: expect.any(Date),
                 startHour: expect.any(String),
                 endHour: expect.any(String),
-                bowlingLaneId: expect.any(String),
-                clientId: expect.any(String),
+                bowlingLaneName: expect.any(String),
+                clientName: expect.any(String),
             });
         })
     })
