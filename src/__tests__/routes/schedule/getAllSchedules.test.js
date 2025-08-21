@@ -50,8 +50,8 @@ describe('GET /schedules', () => {
         expect(allSchedulesResponse.body[0]).toMatchObject({
             date: newSchedule.date.toISOString(),
             startHour: '16:00',
-            bowlingLaneId: expect.any(String),
-            clientId: expect.any(String),
+            bowlingLaneName: expect.any(String),
+            clientName: expect.any(String),
         });    
     });
     it('should filter schedules by date and startHour', async () => {
@@ -81,8 +81,8 @@ describe('GET /schedules', () => {
         expect(filteredResponse.body[0]).toMatchObject({
             date: newSchedule.date.toISOString(),
             startHour: '16:00',
-            bowlingLaneId: expect.any(String),
-            clientId: expect.any(String),
+            bowlingLaneName: expect.any(String),
+            clientName: expect.any(String),
         });
     });
 });
