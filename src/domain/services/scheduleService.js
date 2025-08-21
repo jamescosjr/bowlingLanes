@@ -93,7 +93,23 @@ async function getAllSchedulesService(filter, page, limit) {
 
         const schedules = await getAllSchedules(filter, skip, limit);
 
-        return schedules;
+        for (const schedule of schedules) {
+            schedule.bowlingLaneName = (await getLaneById(schedule.bowlingLaneId)).name;
+            schedule.clientName = (await getClientById(schedule.clientId)).name;
+        }
+
+        const normalizedSchedule = schedules.map((schedule) => {
+            return {
+                id: schedule._id,
+                date: schedule.date,
+                startHour: schedule.startHour,
+                endHour: schedule.endHour,
+                bowlingLaneName: schedule.bowlingLaneName,
+                clientName: schedule.clientName,
+            };
+        });
+
+        return normalizedSchedule;
     } catch (error) {
         throw new AppError("Failed to get all schedules", error);
     }
