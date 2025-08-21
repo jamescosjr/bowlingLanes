@@ -5,3 +5,6 @@ Dockerfile
 .dockerignore
 README.md
 .git
+
+# Arquivos de sistema
+.DS_Store
