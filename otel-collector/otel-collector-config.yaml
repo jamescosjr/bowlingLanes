@@ -1,0 +1,42 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+
+exporters:
+  # Exportador para debug, imprime no console do container
+  logging:
+    loglevel: info
+
+  # Exportador para Prometheus (métricas)
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+
+  # Exportador para Loki (logs)
+  loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
+
+  # Exportador para Jaeger (traces)
+  jaeger:
+    endpoint: "jaeger:14250" # Jaeger collector endpoint
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, jaeger]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, prometheus]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, loki]
