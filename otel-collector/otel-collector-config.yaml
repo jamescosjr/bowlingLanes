@@ -35,12 +35,12 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, jaeger]
+      exporters: [debug, jaeger]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, prometheus]
+      exporters: [debug, prometheus]
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, loki]
+      exporters: [debug, loki]
