@@ -19,6 +19,10 @@ exporters:
   # Exportador para Loki (logs)
   loki:
     endpoint: "http://loki:3100/loki/api/v1/push"
+    labels:
+      attributes:
+        # Pega o atributo 'service.name' do OTel e o transforma na label 'service_name' do Loki
+        service.name: "bowlingLanes" 
 
   # Exportador para Jaeger (traces)
   jaeger:
