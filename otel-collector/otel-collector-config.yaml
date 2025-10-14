@@ -9,7 +9,7 @@ processors:
 
 exporters:
   # Exportador para debug, imprime no console do container
-  logging:
+  debug:
     loglevel: info
 
   # Exportador para Prometheus (métricas)
