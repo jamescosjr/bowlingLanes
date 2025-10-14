@@ -38,12 +38,11 @@ jobs:
           passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
           script: |
             set -e
-
-            echo ">>> Iniciando deploy na VPS..."
             cd ~/bowlingLanes
             
-            echo ">>> Puxando código do repositório..."
-            git pull origin main
+            echo ">>> Sincronizando com o repositório..."
+            git fetch origin
+            git reset --hard origin/main
             
             echo ">>> Parando serviços antigos..."
             docker compose down
