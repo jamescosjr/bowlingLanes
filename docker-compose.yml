@@ -73,7 +73,7 @@ services:
     image: otel/opentelemetry-collector-contrib:latest
     container_name: otel-collector
     ports:
-      - "4318:4318"  # HTTP OTLP
+      - "4319:4318"  # HTTP OTLP
       - "8889:8889"  # Prometheus metrics
     volumes:
       - ./otel-collector/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
