@@ -22,7 +22,7 @@ exporters:
     labels:
       attributes:
         # Pega o atributo 'service.name' do OTel e o transforma na label 'service_name' do Loki
-        service.name: "bowling-lanes-api" 
+        service.name: "service_name" 
 
   # Exportador para Jaeger (traces)
   jaeger:
