@@ -1,0 +1,22 @@
+# Ignore dependencies, as they are installed inside the container
+node_modules
+
+# Ignore local environment variables
+.env
+
+# Ignore Git folder
+.git
+
+# Ignore Docker files themselves
+docker-compose.yml
+
+# Ignore test files and configs
+jest/
+src/__tests__
+jest.config.js
+
+# Ignore miscellaneous development files
+npm-debug.log
+README.md
+.vscode
+.idea

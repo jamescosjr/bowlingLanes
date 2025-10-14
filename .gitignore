@@ -1,7 +1,6 @@
 /node_modules
 /coverage
 .env
-.dockerignore
 README.md
 .git
 
