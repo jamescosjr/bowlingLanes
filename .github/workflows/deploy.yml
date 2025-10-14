@@ -46,10 +46,10 @@ jobs:
             git pull origin main
             
             echo ">>> Parando serviços antigos..."
-            docker-compose down
+            docker compose down
             
             echo ">>> Reconstruindo e subindo os serviços..."
-            docker-compose up --build -d
+            docker compose up --build -d
             
             echo ">>> Limpando imagens antigas..."
             docker image prune -f
