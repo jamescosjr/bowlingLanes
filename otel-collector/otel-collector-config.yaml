@@ -14,15 +14,14 @@ exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
 
-  # Exporta traces para o Jaeger (via OTLP)
-  otlp/jaeger:
-    endpoint: "jaeger:4317"
-    tls:
-      insecure: true
+  loki:
+    endpoint: http://loki:3100/loki/api/v1/push
+    labels:
+      resource:
+        service.name: "app"
 
-  # Exporta logs para o Loki (via OTLP)
-  otlp/loki:
-    endpoint: "http://loki:4318"
+  otlp/jaeger:
+    endpoint: jaeger:4317
     tls:
       insecure: true
 
@@ -41,4 +40,4 @@ service:
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlp/loki]
+      exporters: [debug, loki]

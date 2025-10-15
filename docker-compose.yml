@@ -54,8 +54,7 @@ services:
     image: grafana/loki:latest
     container_name: loki
     ports:
-      - "3100:3100"   # interface HTTP
-      - "4318:4318"   # porta OTLP (para receber logs do Collector)
+      - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - app-net
