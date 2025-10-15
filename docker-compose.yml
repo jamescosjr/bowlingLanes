@@ -37,6 +37,10 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admin
     networks:
       - app-net
+    depends_on:
+      - prometheus
+      - loki
+      - jaeger
 
   prometheus:
     image: prom/prometheus:latest
@@ -71,11 +75,13 @@ services:
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
     container_name: otel-collector
+    command: ["--config", "/etc/otelcol/config.yaml"]
     ports:
-      - "4319:4318"  # HTTP OTLP
+      - "4317:4317"  # OTLP gRPC
+      - "4318:4318"  # OTLP HTTP
       - "8889:8889"  # Prometheus metrics
     volumes:
-      - ./otel-collector/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+      - ./otel-collector/otel-collector-config.yaml:/etc/otelcol/config.yaml
     networks:
       - app-net
     depends_on:
@@ -89,8 +95,5 @@ networks:
 
 volumes:
   mongo-data:
-    driver: local
   prometheus-data:
-    driver: local
   grafana-data:
-    driver: local
