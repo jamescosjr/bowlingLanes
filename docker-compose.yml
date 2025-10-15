@@ -77,7 +77,7 @@ services:
     container_name: otel-collector
     command: ["--config", "/etc/otelcol/config.yaml"]
     ports:
-      - "4317:4317"  # OTLP gRPC
+      - "4319:4317"  # OTLP gRPC
       - "4318:4318"  # OTLP HTTP
       - "8889:8889"  # Prometheus metrics
     volumes:
